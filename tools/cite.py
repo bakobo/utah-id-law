@@ -1,15 +1,22 @@
 #!/usr/bin/env python3
-"""Pull the verbatim text of a Utah Code section out of the local corpus.
+"""Pull the verbatim text of a Utah statute or administrative rule out of the local corpus.
 
 This is the citation primitive for the research process: every claim about Utah law must be
-backed by output from this tool, so that a section number in a finding can be mechanically
-checked against the retrieved text rather than trusted.
+backed by output from this tool, so that a citation in a finding can be mechanically checked
+against the retrieved text rather than trusted.
+
+A reference beginning with R is an administrative rule; anything else is a Code section. Both
+layers matter -- the fishing-license probe found the identity requirement in the *rule*
+(R657-45-2) after the statute turned out to have none.
 
 Usage:
-    python3 tools/cite.py 23A-4-601              # one section
+    python3 tools/cite.py 23A-4-601              # one Code section
+    python3 tools/cite.py 63G-12                 # a whole Code chapter
     python3 tools/cite.py 63G-12-402 --raw       # keep XML markup
-    python3 tools/cite.py 63G-12                 # a whole chapter
+    python3 tools/cite.py R657-45                # a whole admin rule
+    python3 tools/cite.py R657-45-2              # one rule section
     python3 tools/cite.py --grep 'penalty of perjury' --title 26B
+    python3 tools/cite.py --grep 'verification of identity' --rules
 """
 
 import argparse
@@ -18,7 +25,9 @@ import re
 import sys
 from pathlib import Path
 
-CORPUS = Path(__file__).resolve().parent.parent / "corpus" / "utah-code"
+BASE = Path(__file__).resolve().parent.parent / "corpus"
+CORPUS = BASE / "utah-code"
+RULES = BASE / "admin-rules"
 
 
 def title_of(ref: str) -> str:
@@ -60,15 +69,65 @@ def extract(xml: str, ref: str) -> str | None:
     return None
 
 
+def load_rule(ref: str) -> tuple[str, str]:
+    """Resolve an admin-rule reference to (rule number, text).
+
+    R657-45-2 is a section of rule R657-45, so back off one dash at a time until a
+    stored rule matches.
+    """
+    parts = ref.split("-")
+    for cut in range(len(parts), 1, -1):
+        candidate = "-".join(parts[:cut])
+        path = RULES / f"{candidate}.txt.gz"
+        if path.exists():
+            return candidate, gzip.decompress(path.read_bytes()).decode("utf-8", "replace")
+    raise SystemExit(
+        f"no stored rule matches '{ref}'. Fetch it with:\n"
+        f"    python3 tools/fetch-utah-admin-rules.py {parts[0]}"
+    )
+
+
+def rule_section(text: str, ref: str) -> str | None:
+    """Slice one section (e.g. R657-45-2) out of a rule, up to the next section heading."""
+    m = re.search(rf"^{re.escape(ref)}\.\s", text, re.M)
+    if not m:
+        return None
+    rest = text[m.start():]
+    nxt = re.search(r"^R\d+[A-Za-z]?-\d+[A-Za-z]?-\d+\w*\.\s", rest[1:], re.M)
+    return rest[: nxt.start() + 1] if nxt else rest
+
+
+def grep_rules(pattern: str, prefix: str | None) -> None:
+    rx = re.compile(pattern, re.I)
+    files = sorted(RULES.glob(f"{prefix.upper()}-*.txt.gz" if prefix else "*.txt.gz"))
+    if not files:
+        raise SystemExit(f"no rules in {RULES} (run tools/fetch-utah-admin-rules.py)")
+    for f in files:
+        text = gzip.decompress(f.read_bytes()).decode("utf-8", "replace")
+        if not rx.search(text):
+            continue
+        # Report the rule section containing each hit, so the output is citable.
+        heads = list(re.finditer(r"^(R\d+[A-Za-z]?-\d+[A-Za-z]?-\d+\w*)\.\s*(.*)$", text, re.M))
+        for m in rx.finditer(text):
+            here = [h for h in heads if h.start() <= m.start()]
+            label = f"{here[-1].group(1)}\t{here[-1].group(2)[:60]}" if here else f.name
+            snippet = re.sub(r"\s+", " ", text[max(0, m.start() - 90) : m.start() + 110])
+            print(f"{label}\n    …{snippet}…")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("ref", nargs="?", help="section or chapter, e.g. 23A-4-601 or 63G-12")
+    ap.add_argument("ref", nargs="?", help="Code section (23A-4-601) or admin rule (R657-45-2)")
     ap.add_argument("--raw", action="store_true", help="emit XML instead of flattened text")
     ap.add_argument("--grep", metavar="PATTERN", help="search the corpus, printing section numbers")
-    ap.add_argument("--title", help="restrict --grep to one title, e.g. 26B")
+    ap.add_argument("--title", help="restrict --grep to one title (26B) or rule prefix (R657)")
+    ap.add_argument("--rules", action="store_true", help="search admin rules instead of the Code")
     args = ap.parse_args()
 
     if args.grep:
+        if args.rules or (args.title or "").upper().startswith("R"):
+            grep_rules(args.grep, args.title)
+            return
         titles = [args.title.upper()] if args.title else None
         files = (
             [f for t in titles for f in CORPUS.glob(f"C{t}_*.xml.gz")]
@@ -90,6 +149,18 @@ def main() -> None:
         ap.error("give a section/chapter reference, or use --grep")
 
     ref = args.ref.upper()
+
+    if ref.startswith("R") and re.match(r"R\d", ref):
+        rule, text = load_rule(ref)
+        if ref == rule:
+            print(text)
+            return
+        section = rule_section(text, ref)
+        if section is None:
+            raise SystemExit(f"'{ref}' not found in rule {rule}")
+        print(section)
+        return
+
     frag = extract(load(title_of(ref)), ref)
     if frag is None:
         raise SystemExit(f"'{ref}' not found in Title {title_of(ref)}")
