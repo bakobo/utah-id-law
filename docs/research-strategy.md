@@ -108,33 +108,65 @@ A complete answer spans four layers. The corpus currently covers one and a half.
 | Layer | Status |
 |---|---|
 | **Utah Code** (statute) | ✅ all 96 titles, `corpus/utah-code/` |
-| **Utah Administrative Code** (agency rules) | ❌ **not retrieved** — see below |
+| **Utah Administrative Code** (agency rules) | ✅ all ~2,295 current rules, `corpus/admin-rules/` |
 | **Federal conditions** (PRWORA, CFR program rules) | ◐ 8 U.S.C. §1621 only |
 | **Agency practice** (manuals, forms) | ❌ GRAMA-request territory, not corpus-searchable |
 
-The rules layer matters disproportionately, because statutes routinely delegate. §23A-4-601 issues
-licenses "in accordance with the rules… of the Wildlife Board." If a fishing-license identity
-requirement exists, that is where it would be.
+The rules layer matters disproportionately, because statutes routinely delegate — and in the fishing
+probe it changed the answer. The statute imposes no identity requirement at all; the *rule*
+(R657-45-2) requires the license form to collect name, date of birth, address, and a physical
+description. Never conclude from statute alone.
 
-### Admin rules — what worked and what didn't (2026-07-28)
+### Admin rules — how the API was cracked (2026-07-28)
 
-`adminrules.utah.gov` is a React SPA with no bulk download; `rules.utah.gov/publications/
-utah-administrative-code/` links to the SPA rather than to files. Probing its API:
+There is **no official bulk download and no documented API**. `adminrules.utah.gov` is a React SPA
+(built by Tecuity); `rules.utah.gov/publications/utah-administrative-code/` links to the SPA rather
+than to files, and the Office's own guidance is to phone or email. The working endpoints below were
+recovered by reading the SPA's JS bundle, `/static/js/main.*.chunk.js`.
 
-- ✅ `GET /api/public/agencies` → 48 agencies as JSON
-- ✅ `GET /api/public/programs/{agencyId}` → programs (Natural Resources = 31 → Wildlife Resources
-  = id 122, number 657)
-- ⚠️ `GET /api/public/searchRuleDataTotal/{query}/{page}` → 200, but returns the agency/program
-  skeleton with `rules: []` — it appears to serve counts, not rows
-- ❌ `GET /api/public/rule/{a}/{b}/{c}` → 400 on every parameter shape tried (rule numbers,
-  numeric ids, publication names); the route matches but the argument types are wrong
-- ❌ `GET /api/program/{id}/currentrules` → 500 (likely authenticated, not public)
-- ❓ `GET /api/public/getHTML/{id}` → needs a numeric rule id we could not yet enumerate
+Two quirks made this hard, and neither is guessable:
 
-**Next step:** the missing piece is the rule-listing call. Either read the paginated-search code path
-in `/static/js/main.*.chunk.js` more carefully, or capture the network trace from a real browser
-session on a rule page and copy the exact request. Once a rule id is in hand, `getHTML` should give
-the text. Do **not** treat the statute corpus as complete without this layer.
+1. **Missing path parameters are sent as the literal string `"undefined"`,** not omitted. Every
+   attempt with real-looking values returned 400; `undefined` in the id slot returns 200.
+2. **`searchRuleDataTotal` takes (searchTerm, ruleType), not (query, page).** Passing a page number
+   as the second argument silently returns the agency/program skeleton with `rules: []`, which
+   reads like an empty result set rather than a wrong call. The correct second argument is a rule
+   type such as `Current Rules`.
+
+The pipeline, two calls deep:
+
+```sh
+# 1. Enumerate the entire code. Any single-letter search term returns all ~2,295 rules,
+#    each with its agency, program, effective date, and htmlDownload path.
+curl 'https://adminrules.utah.gov/api/public/searchRuleDataTotal/a/Current%20Rules'
+
+# 2. Fetch one rule's full text using the htmlDownload path from the index.
+curl 'https://adminrules.utah.gov/api/public/getHTML/uac-html/<guid>.html'
+
+# Rule metadata by reference number, if you have the number but not the index:
+curl 'https://adminrules.utah.gov/api/public/rule/R657-13/undefined/Current%20Rules'
+```
+
+Implemented in `tools/fetch-utah-admin-rules.py`. Endpoints that do **not** work publicly:
+`/api/program/{id}/currentrules` → 500 (authenticated), and `/api/public/getfile/` → 404 for the
+`uac-pdf` paths.
+
+### Alternative bulk sources (researched, rejected)
+
+- **`rules.utah.gov/publicat/code_zip/r{NNN}.zip`** — per-title RTF archives, still live and
+  returning 200 (r657.zip = 960 KB, 59 RTF files). **But the contents are dated April 2020**, a
+  stale snapshot from before the eRules migration. Useful only for enumerating historical rule
+  numbers or diffing against 2020. Do not quote current law from these.
+- **`rules.utah.gov/publications/code-updates/`** — monthly ZIPs of *changed* rules as `.docx`
+  plus `.xlsx` change reports, archived back to 2010, each with an MD5. This is the best source
+  for **change tracking over time**, and the natural basis for a periodic re-fetch, but it is
+  incremental rather than a full snapshot.
+- **Directory listings** (`/publicat/code/`, `/publicat/code_zip/`) — 403, no index.
+- **An official XML/JSON export** — none found; the Office suggests contacting them
+  (`rulesonline@utah.gov`) if one is needed.
+
+Codification cadence: the Code is updated by the 10th of each month with filings effective through
+the 1st. Re-fetch monthly if currency matters; the manifest's SHA-256 column makes the diff cheap.
 
 ## 6. Provenance discipline
 

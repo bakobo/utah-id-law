@@ -35,17 +35,40 @@ specific version of the text. Sections load-bearing so far:
 before any claim about Medicaid/SNAP/UI identity duties: 42 C.F.R. §435.940 et seq. (Medicaid
 citizenship/identity), 7 C.F.R. §273.2 (SNAP), 6 C.F.R. Part 37 (REAL ID).
 
-## 3. Utah Administrative Code — **NOT YET RETRIEVED**
+## 3. Utah Administrative Code (primary — archived in full)
 
-The rules layer is missing and matters: statutes delegate heavily (§23A-4-601 issues licenses
-"in accordance with the rules… of the Wildlife Board").
+| Live | Local | Note |
+|---|---|---|
+| https://adminrules.utah.gov/public/home | `../corpus/admin-rules/*.txt.gz` | **All ~2,295 current rules**, retrieved 2026-07-28 via the undocumented SPA API. Stored as extracted text (~44 MB → ~12 MB); the manifest records each rule's source URL and the **SHA-256 of the original HTML**. Refetch with `tools/fetch-utah-admin-rules.py`; read with `tools/cite.py R657-45-2`. |
 
-- Browse UI: https://adminrules.utah.gov/public/home
-- Publications page (links to the SPA, no bulk files): https://rules.utah.gov/publications/utah-administrative-code/
-- Utah State Bulletin: https://rules.utah.gov/publications/utah-state-bulletin/
-- Working API primitives and the specific blocker: see `../docs/research-strategy.md` §5.
-- Rules of interest when access is solved: **R657-** (Wildlife Resources), **R986-** (Workforce
-  Services / public assistance), **R414-** (Medicaid).
+There is **no official bulk download and no documented API** — the endpoints were recovered from the
+SPA's JS bundle. Recipe, quirks, and rejected alternatives: `../docs/research-strategy.md` §5.
+The Code is recodified monthly (by the 10th, for filings effective through the 1st), so a refetch
+plus a manifest hash-diff is the currency check.
+
+Rules load-bearing so far:
+
+- **R657-45-2** — Wildlife license/permit forms **shall include** customer ID number, name, date of
+  birth, address, height, weight, eye color, hair color, gender. Applies to hunting *and fishing*.
+  Mandates identity **collection**; imposes no verification.
+- **R657-13** — Taking Fish and Crayfish. The operative fishing rule; zero identity content.
+- **R657-17-8** — Lost/stolen **lifetime** license: duplicate requires "providing verification of
+  identity." The only genuine identity-verification requirement in the 64 R657 rules.
+- **R657-19**, **R657-62** — Application contents (SSN, driver-license number, DOB) and
+  point-tracking identifiers. Collection and record-linking, not proofing.
+
+Other rule families of interest, now retrievable: **R986-** (Workforce Services / public
+assistance), **R414-** (Medicaid), **R156-** (professional licensing / DOPL).
+
+Other publication channels:
+
+- Utah State Bulletin (semi-monthly PDFs): https://rules.utah.gov/publications/utah-state-bulletin/
+- Monthly code-update ZIPs (changed rules as `.docx`, plus `.xlsx` change reports, back to 2010,
+  each with an MD5) — the right source for **change tracking**:
+  https://rules.utah.gov/publications/code-updates/
+- ⚠️ **Stale trap:** `https://rules.utah.gov/publicat/code_zip/r{NNN}.zip` still returns 200 with
+  per-title RTF archives, but the contents are an **April 2020 snapshot** predating the eRules
+  migration. Do not quote current law from these.
 
 ## 4. Cross-references
 
@@ -62,5 +85,11 @@ The rules layer is missing and matters: statutes delegate heavily (§23A-4-601 i
 2. **Keyword counts are directional, not dispositive.** The §7 sweep in
    `../findings/fishing-license-probe.md` counts phrases, not duties. A statute can impose
    verification without using any searched phrase. Do not cite the counts as proof of absence.
-3. **Corpus is statute-only.** Any claim of the form "Utah law nowhere requires X" is unproven until
-   the Administrative Code layer is retrieved.
+3. **"The statute settles it."** ❌ It usually doesn't. In the fishing probe the statute imposed no
+   identity requirement at all, while the *rule* (R657-45-2) required the license form to collect
+   name, date of birth, address, and a physical description. Always check both layers before
+   concluding. What survived the rules layer was the narrower distinction: **collection is mandated,
+   proofing is not.**
+4. **Rule text can lag statutory recodification.** R657-13 still cross-references "Section 23-19-18"
+   — the pre-2023 Title 23 numbering, since recodified to Title 23A. Do not assume a rule's internal
+   citations match current Code numbering.

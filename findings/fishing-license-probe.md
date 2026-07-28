@@ -137,18 +137,52 @@ Two further cautions on that line of argument:
   often permitted rather than violative. Worth a separate probe before relying on it —
   see the backlog.
 
-## 6. What would actually change the answer
+## 6. The rules layer — where the architect is partly right
 
-Rules, not statutes. §23A-4-601(2) issues licenses "in accordance with the rules, proclamations, and
-orders of the Wildlife Board," and §23A-4-202(2) delegates license form to Board rulemaking. If an
-identity requirement for a fishing license exists anywhere, it is in the **Utah Administrative Code
-(R657-series)**, not the statute.
+§23A-4-601(2) issues licenses "in accordance with the rules… of the Wildlife Board," so the statute
+alone was never the whole answer. All 64 current **R657** (Wildlife Resources) rules have now been
+retrieved and searched. The result refines the finding rather than overturning it, and it vindicates
+one part of the architect's description.
 
-This probe has **not** checked that layer — `adminrules.utah.gov` is a SPA whose bulk API resisted
-several access attempts (see `docs/research-strategy.md` §Admin rules for what worked and what
-didn't). Two things temper the gap: a Board rule cannot exceed its statutory delegation, which here
-concerns license *form* rather than applicant verification; and this would in any case only affect
-the fishing example, not §63G-12-402's attestation method or its exemption list, which are statutory.
+**Collection is mandatory, and it is more than a name.** R657-45 ("Wildlife License, Permit, and
+Certificate of Registration Forms and Terms"), issued under §23A-4-202:
+
+> **R657-45-2(2)** The license, permit, and certificate of registration forms **shall include** the
+> licensee's customer identification number, name, date of birth, address, height, weight, eye color,
+> hair color, gender, and any other information the Division of Wildlife Resources may request.
+
+R657-45-2(1) applies this to licenses "issued for hunting **or fishing**." So a Utah fishing license
+does carry a real identity record — name, DOB, address, and a physical description. Anyone assuming
+the state merely takes a name is understating it, and the "they write down a person's name" half of
+the architect's characterization is **correct, and required by rule**.
+
+**Verification is still absent.** Nothing in R657-45 — or anywhere in the 64 R657 rules — directs
+the division to check any of it against evidence. R657-45-3(1)(a) keeps the statutory posture:
+issuance follows "**paying the prescribed fee and satisfying the criteria for issuance**."
+**R657-13** ("Taking Fish and Crayfish"), the operative fishing rule, contains **zero** occurrences
+of *identity*, *proof*, *verif-*, *photo identification*, or *driver license* across 34,561
+characters.
+
+Searching all 64 R657 rules for identity language turns up exactly **one** verification requirement,
+and its placement is telling:
+
+> **R657-17-8(1)** If a **lifetime** hunting and fishing license is lost or stolen, a duplicate may be
+> obtained from any division office by: (a) providing **verification of identity**; and (b) paying a
+> lifetime hunting and fishing license duplication fee.
+
+Utah requires identity verification to *replace a lost lifetime license* — an anti-fraud control on a
+high-value, non-expiring credential — but not to *obtain* a fishing license in the first place. If a
+general duty to strongly identify existed, this provision would be unnecessary.
+
+The other hits are collection or record-linking, not proofing: R657-19 requires a certificate-of-
+registration application to *include* SSN, driver-license number, DOB, and physical description;
+R657-62 tracks bonus and preference points "using social security numbers or division-issued customer
+identification numbers." Each asks the applicant to *supply* an identifier. None asks the division to
+*validate* one.
+
+**The distinction that survives:** the rules mandate **identity assertion** — a substantial dossier of
+self-reported attributes, on a prescribed form. They do not mandate **identity proofing**. Those are
+different duties (see the table in `docs/research-strategy.md` §1), and only the first is imposed.
 
 ## 7. First read across the whole Code — directional, not conclusive
 
@@ -189,36 +223,86 @@ verification duty without using any of these phrases ("shall present a valid dri
 "documentary evidence of," "shall establish the applicant's identity"). Closing that gap is exactly
 what the phrase-family sweep in `docs/research-strategy.md` is for.
 
+## 8. Where the claim does hold — Medicaid and child care
+
+With all ~2,294 current rules retrieved, the honest answer needs its other half. For **means-tested
+benefit programs, Utah really does require identity verification**, including documentary evidence.
+
+**Medicaid** (R414):
+
+> **R414-308-4(4)** If an applicant's citizenship and identity do not match through the **Social
+> Security electronic match process** and the eligibility agency cannot resolve the inconsistency,
+> the eligibility agency shall require the applicant to provide **verification of his citizenship and
+> identity** in accordance with 42 U.S.C. 1396a(ee)(1)(B). (a) The individual must provide
+> verification to resolve the inconsistency or provide **original documentation** … within 90 days.
+
+R414-302-3 implements 42 C.F.R. §435.406, requiring citizenship/lawful-status verification.
+
+**Child care assistance** (R986-700-702(3)): "**A client must verify identity**," with the
+Department verifying the SSN where provided and requesting "further verification to confirm an
+individual's identity if a Social Security Number cannot be verified."
+
+Three observations that keep this in proportion:
+
+1. **The source is federal, not Utah.** Both regimes cite federal authority — 42 C.F.R. §435.406/407,
+   42 U.S.C. §1396a(ee). These are conditions attached to federally funded programs, which is exactly
+   why they reach Medicaid and child care but not fishing licenses. This is the layer flagged in
+   `docs/research-strategy.md` §1 as the most common source of confusion, and it cuts *against*
+   universality: a duty that attaches to specific federally funded programs is by construction not a
+   duty that attaches to every interaction with the state.
+2. **The design is risk-based, not gate-based.** The default path is an *electronic match* against
+   SSA records; documentary proofing is the **exception**, triggered only by a mismatch. Even here,
+   Utah is not front-door-verifying every applicant.
+3. **It is program-specific, and the programs are enumerable.** That is the opposite of a general
+   rule with scattered non-compliance.
+
+So the fair summary of the disagreement: **the architect is right that some entitlements carry real
+identity-verification duties, and wrong that this is a general requirement.** The dividing line is
+not compliance — it is whether a given program is a federally funded means-tested benefit. Fishing
+licenses, state park entry, immunizations, and the whole §63G-12-402(3) exemption list sit on the
+other side of it.
+
 ## Scope of this probe
 
 Answered: the fishing-license example, and the content and method of Utah's most general
 benefits-verification duty.
 
 **Not** answered with finality: the universal claim across all 96 titles. Section 7 is a keyword
-sweep, not the systematic phrase-family search the corpus was built to support, and it does not
-cover the Utah Administrative Code at all. Two further limits worth stating plainly:
+sweep of the statutes, not the systematic phrase-family search described in
+`docs/research-strategy.md` §3, and §§6 and 8 sample the rules layer by family (R657, R414, R986)
+rather than sweeping all ~2,294 rules. Both corpora are now local, so that sweep is available work
+rather than a blocked gap.
 
-- **Federal program rules bind independently.** Medicaid, SNAP, and unemployment carry federal
-  identity/eligibility conditions (e.g. 42 C.F.R. §435.940 et seq., 7 C.F.R. §273.2) that do not
-  appear in the Utah Code. A complete answer needs that layer. Note that these attach to *specific
-  federally funded programs* — which, if anything, cuts against a universal reading.
-- **Admin rules are unexamined.** See §6.
+One limit remains genuinely open: **the federal layer is not archived.** The Medicaid and child care
+duties in §8 cite 42 C.F.R. §435.406/407 and 42 U.S.C. §1396a(ee); those texts, plus 7 C.F.R. §273.2
+(SNAP) and 6 C.F.R. Part 37 (REAL ID), have not been retrieved and were read only through the Utah
+rules that implement them.
 
-What the probe does establish is that the best candidate for a general mandate (§63G-12-402) is
-bounded by a defined term, an age floor, and a long exemption list, and prescribes attestation
-rather than proofing.
+What the probe establishes: the best candidate for a general mandate (§63G-12-402) is bounded by a
+defined term, an age floor, and a long exemption list and prescribes attestation rather than
+proofing; the fishing example fails outright; and the genuine verification duties that do exist are
+program-specific and federally sourced.
 
 ## Bottom line
 
 | Claim | Verdict |
 |---|---|
-| A fishing license requires strong identification | **False.** §23A-4-601 requires payment of a fee; there is no identity element. |
+| A fishing license requires strong identification | **False.** §23A-4-601 requires payment of a fee. R657-45-2 requires the *form* to collect name, DOB, address, and physical description — collection, not verification. |
+| The state writes down identifying information | **True, and required** — by rule (R657-45-2), not by statute. Credit where due; this is the accurate half of the characterization. |
 | A fishing license is an "entitlement" triggering verification duties | **False.** Not a public benefit under 8 U.S.C. §1621(c); the applicant pays the state. |
-| Utah law generally requires strong identification for entitlements | **Not supported.** The general provision, §63G-12-402, is bounded by a defined term, an 18+ floor, and an exemption list. |
+| Utah law generally requires strong identification for entitlements | **Not supported as a general rule.** §63G-12-402 is bounded by a defined term, an 18+ floor, and an exemption list. But **specific programs do require it** — Medicaid (R414-308-4) and child care assistance (R986-700-702) both mandate identity verification, under federal authority. |
 | Where verification *is* required, it means strong identification | **False.** §63G-12-402(4)–(5): certification under penalty of perjury; SAVE only for the non-citizen branch. |
 | Observed practice is non-compliance, not evidence | **Not applicable here.** The statute specifies a different condition; issuing on payment alone complies. |
 
-The underlying conflation is between **identity proofing** (validating a claimed identity against
-authoritative evidence) and **status verification backed by perjury liability** (what Utah actually
-legislated). Utah's design, in both statutes examined, deters false assertion with criminal penalty
-rather than preventing it with verification.
+Two conflations drive the disagreement. The first is between **identity proofing** and **status
+verification backed by perjury liability** — Utah's general design deters false assertion with
+criminal penalty rather than preventing it with verification. The second is between **a general
+requirement observed unevenly** and **a set of program-specific federal requirements**. §8 shows
+the latter is what actually exists: real, enforceable identity verification in Medicaid and child
+care, absent in recreational licensing, and expressly waived across the §63G-12-402(3) list.
+
+For SEDI purposes the practical upshot is that Utah has **no general identity-assurance baseline**
+to inherit. Assurance today is set program by program, mostly by federal funding conditions, and
+ranges from nothing (fishing) through attestation (§63G-12-402(4)) to electronic match with
+documentary fallback (Medicaid). Anything asserting a uniform statewide floor is describing a
+future state, not the current legal landscape.
