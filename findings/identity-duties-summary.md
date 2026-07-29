@@ -41,7 +41,7 @@ credit card — and imposes no identity requirement on whoever pays.
 
 ## Where collection is required but proofing is not
 
-**Refinement 1.** Fishing licence — §23A-4-601(2): "*Upon paying the fee prescribed by the Wildlife
+**Fishing licence** — §23A-4-601(2): "*Upon paying the fee prescribed by the Wildlife
 Board, a person may obtain a license to fish.*" Yet R657-45-2(2) requires forms to "*include the
 licensee's customer identification number, name, date of birth, address, height, weight, eye color,
 hair color, gender.*" An agency failing to gather these **would** be out of compliance; nothing
@@ -61,7 +61,7 @@ immunisations, shelter and retirement benefits outright.
 
 ## Where stronger identification is required
 
-**Refinement 2 — these are numerous, and dereliction there genuinely is non-compliance.**
+**These are numerous, and dereliction there genuinely is non-compliance.**
 
 - **Real property.** §46-1-2(25) defines "*satisfactory evidence of identity*" as "*unexpired personal
   identification that includes the individual's photograph, signature, and physical description*,"
@@ -98,7 +98,7 @@ match-first, with documents only on mismatch.
 
 ## The courts are the strongest evidence
 
-**Refinement 4.** Across all 690 court rules there are **zero** identity-proofing requirements,
+Across all 690 court rules there are **zero** identity-proofing requirements,
 against 217 occurrences of oath, affirmation, unsworn declaration, affidavit, or penalty of perjury.
 The single photo-ID requirement is UCJA-4-907(6)(A) — attending the mandatory divorce/parenting
 class. You may file a petition, testify, and post bail without proving who you are; you must show ID

@@ -77,3 +77,21 @@ claim is complete:
 
 Textual research by non-lawyers. For any specific program the binding answer often sits in an agency
 manual or unpublished policy, reachable by GRAMA request rather than by search.
+
+## Licence
+
+The **original work here** — the findings, the research strategy, the source registry, and the
+tooling under `tools/` — is licensed **[CC BY 4.0](LICENSE)**. Attribution appreciated: Bakobo,
+*utah-id-law*.
+
+The **corpora under `corpus/` are not covered by that licence and are not ours to license.** They
+are the text of Utah statutes, administrative rules, and court rules — edicts of government, which
+carry no copyright. They are redistributed here as retrieved, with source URLs, retrieval dates, and
+SHA-256 hashes in the manifests so provenance is checkable. The authoritative sources remain
+[le.utah.gov](https://le.utah.gov/xcode/code.html),
+[adminrules.utah.gov](https://adminrules.utah.gov/public/home), and
+[utcourts.gov](https://www.utcourts.gov/rules).
+
+Note that the admin-rules and court-rules corpora store **extracted text** rather than the served
+HTML, for the size reasons documented in each fetcher. Quote from them freely, but for anything
+load-bearing, verify against the live source — the manifests tell you exactly where to look.
