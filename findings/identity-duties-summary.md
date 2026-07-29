@@ -1,7 +1,9 @@
 # When does Utah law require identifying a person? — summary
 
-**Verdict on the proposition: accurate, with four refinements.** No general duty exists to correlate
-a person to an authoritative identity record. Specific interactions do impose one, and dereliction
+No general duty exists to correlate a person to an authoritative identity record. Collecting
+self-asserted info like name and address lays a foundation for correlation but does not amount
+to correlation unless the collector must submit this knowledge or compare it in some way. 
+However, specific interactions do impose a stronger identification requirement, and dereliction
 there would be non-compliance.
 
 ## How this was derived
@@ -17,9 +19,7 @@ filing was unanswerable until the court rules arrived.
 Method: a full-text sweep for identity-duty phrase families, bucketed into **proofing** (validate
 against authoritative evidence), **document presentation**, **collection** (nobody checks), and
 **attestation** (swear to it, be punished if false), then close reading of the hits. This is **not**
-an exhaustive reading of ~3,100 instruments, and counts are pointers rather than findings: Title 78B
-ranked among the top proofing titles until its hits proved to be a *blockchain* definitions section
-(§78B-3-112).
+an exhaustive reading of ~3,100 instruments.
 
 ## Where nothing is required
 
@@ -89,7 +89,7 @@ immunisations, shelter and retirement benefits outright.
 
 ## Who carries the duty
 
-**Refinement 3, and the most consequential.** In the strongest voluntary cases the verifier is a
+In the strongest voluntary cases the verifier is a
 **commissioned notary, a licensed retailer, or a parent** — not a state agency. "Utah law requires
 strong identification" and "a state agency must strongly identify you" are different propositions;
 the second is markedly rarer. Where the state itself proofs, it is overwhelmingly under **federal
