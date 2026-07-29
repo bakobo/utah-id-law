@@ -11,7 +11,7 @@ there would be non-compliance.
 Three corpora, retrieved in full — the whole body of Utah law bearing on the question. The **Utah
 Code** (96 titles) is the legislature's. The **Utah Administrative Code** (2,294 rules) is made by
 agencies under authority delegated in statute, through the Utah Administrative Rulemaking Act (Title
-63G, Ch. 3), and holds operative detail statutes omit. **Court rules** (690) are promulgated by the
+63G, Ch. 3), and holds operative detail statutes omit. **Court rules** (661) are promulgated by the
 Utah Supreme Court under its constitutional rulemaking power and govern court procedure. Each layer
 proved decisive somewhere: the fishing-licence identity provisions exist only in the rules, and court
 filing was unanswerable until the court rules arrived.
@@ -25,8 +25,9 @@ an exhaustive reading of ~3,100 instruments.
 
 **Creating an LLC** — Title 48 contains zero occurrences of *proof of identity*, *identification*, or
 *social security number*. **A GRAMA (public records) request** — §63G-2-204(1)(a) requires only "*the
-person's name; mailing address; email address.*" **Utilities or a city water bill** — Titles 54 and
-10 are silent; whatever a utility asks is its own credit policy. **Ombudsman complaints** — nothing.
+person's name; mailing address; email address.*" **A city water bill** — Title 10 is silent; whatever a
+municipal utility asks is its own credit policy. (Title 54 is *not* silent: §54-8b-18(3)(a) makes a
+third-party verifier "*confirm the subscriber's identity*" when a telecom carrier is switched.) **Ombudsman complaints** — nothing.
 
 **Filing a court petition.** URCP-11(a)(2): "*Unless required by statute, a paper need not be
 accompanied by affidavit or have a notarized, verified or acknowledged signature*," and where a rule
@@ -98,12 +99,13 @@ match-first, with documents only on mismatch.
 
 ## The courts are the strongest evidence
 
-Across all 690 court rules there are **zero** identity-proofing requirements,
-against 217 occurrences of oath, affirmation, unsworn declaration, affidavit, or penalty of perjury.
-The single photo-ID requirement is UCJA-4-907(6)(A) — attending the mandatory divorce/parenting
-class. You may file a petition, testify, and post bail without proving who you are; you must show ID
-to attend the class. The branch with most at stake in knowing who stands before it requires no
-proofing at all.
+No Utah court rule requires a party to prove identity in order to **file, testify, or post bail** —
+the Rules of Civil Procedure, Evidence and Appellate Procedure are at zero on both proofing and
+document presentation, against 192 occurrences of oath, affirmation, declaration, affidavit or
+perjury. Nine of the 661 rules do impose identity duties, and they cluster revealingly: **records
+access** (UCJA-4-202.03/.04/.05/.12), **courthouse security** (UCJA-3-414), and **compulsory process
+against defendants** (UCJA-4-609, URCrP-16, URJP-27). You must show ID to read a sealed record or
+carry a weapon into a courthouse — never to invoke the court's jurisdiction.
 
 **Bottom line:** assurance is set interaction by interaction — nothing, attestation, collection, or
 documentary proof. **Utah has no general identity-assurance baseline.**

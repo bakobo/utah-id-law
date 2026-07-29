@@ -5,7 +5,7 @@ The point is to answer "where in Utah law does an identity duty exist at all?" w
 pre-selecting domains -- earlier work sampled three rule families and inherited their
 narrowness.
 
-Three buckets, because they are legally different duties (see docs/research-strategy.md §1):
+Five buckets, because they are legally different duties (see docs/research-strategy.md §1):
 
   PROOFING   - validate a claimed identity against authoritative evidence
   DOCUMENT   - present a specific credential (driver licence, photo ID)
@@ -28,22 +28,48 @@ from pathlib import Path
 BASE = Path(__file__).resolve().parent.parent / "corpus"
 
 PATTERNS = {
+    # A possessive noun between the verb and "identity" is the commonest phrasing in Utah
+    # drafting ("verify the applicant's identity"), and the original pattern -- which allowed
+    # only an article or pronoun -- missed all of it, undercounting the Code roughly 4x.
     "PROOFING": [
+        r"(?:verif|confirm|establish|ascertain|authenticat|validat|substantiat)\w*"
+        r"\s+(?:(?:the|a|an|his|her|their|its|each|any|that|this|such|said)\s+)?"
+        r"(?:\w+[\u2019'`]s\s+|\w+s[\u2019']\s+|\w+\s+){0,3}identit\w+",
+        r"(?:verification|confirmation|validation|authentication)\s+of\s+"
+        r"(?:(?:the|a|an|his|her|their|its)\s+)?(?:\w+[\u2019'`]s\s+|\w+\s+){0,3}identit\w+",
+        r"identit\w+\s+(?:\w+\s+){0,3}(?:is|are|be|been|was|were)\s+"
+        r"(?:\w+\s+){0,2}(?:verified|confirmed|established|ascertained|authenticated|validated)",
         r"proof of identity",
-        r"verif\w*\s+(?:the\s+|his\s+|her\s+|their\s+|an?\s+)?identity",
-        r"identity\s+verification",
-        r"establish\w*\s+the\s+identity",
-        r"satisfactory evidence of identity",
-        r"confirm\w*\s+(?:the\s+)?(?:individual's\s+|person's\s+)?identity",
-        r"identity of the (?:applicant|signer|individual|person) ",
+        r"positive identification",
+        r"satisfactory evidence of\s+(?:\w+\s+){0,2}identit\w+",
+        r"personally known to the notary",
     ],
+    # "present a valid driver license" never matched anything corpus-wide: Utah drafting
+    # almost always puts a word between the verb and the noun ("present a currently valid
+    # Utah driver license"). Broadened, and given the document vocabulary it lacked.
     "DOCUMENT": [
-        r"photo(?:graphic)? identification",
-        r"valid\s+(?:government[- ]issued\s+)?identification",
-        r"government[- ]issued\s+(?:photo\s+)?(?:identification|id\b)",
-        r"present\w*\s+(?:a\s+)?(?:valid\s+)?(?:driver\W{0,3}s? licen[cs]e|identification card)",
-        r"proof of age",
-        r"documentary evidence",
+        r"(?:present|produce|exhibit|display|show|furnish|surrender|tender)\w*"
+        r"\s+(?:\w+[\u2019'`]?s?\s+){0,5}"
+        r"(?:identification|identity document|photo\s?ID\b|driver\W{0,3}s? licen[cs]e)\b",
+        r"(?:photo|picture|photographic)[- ]?(?:identification|ID\b)",
+        r"(?:valid|current(?:ly valid)?|unexpired)\s+(?:\w+[- ]?){0,3}identification",
+        r"government[- ]issued\s+(?:\w+\s+){0,2}(?:identification|id\b)",
+        r"(?:identification|identity) document",
+        r"certified copy of\s+(?:\w+\s+){0,3}birth certificate",
+        r"birth certificate",
+        r"\bpassport\b",
+        r"documentary proof",
+        r"documentary evidence of\s+(?:\w+\s+){0,2}(?:identit|age|citizenship|birth|residenc)",
+        r"(?:finger|thumb)print",
+        r"\bbiometric",
+    ],
+    # Proving an attribute (age, residency, citizenship) is legally distinct from proving
+    # identity -- the 63G-12-402 "lawful presence, a status, not an identity" distinction --
+    # so it gets its own bucket rather than being folded into DOCUMENT.
+    "ATTRIBUTE": [
+        r"proof of (?:age|residency|residence|citizenship|lawful presence)",
+        r"documentary proof of (?:United States )?citizenship",
+        r"evidence of (?:age|residency|citizenship|lawful presence)",
     ],
     "COLLECTION": [
         r"social security number",
@@ -52,11 +78,14 @@ PATTERNS = {
     ],
     # The competing design: deter false assertion afterward instead of verifying up front.
     "ATTESTATION": [
-        r"under penalty of perjury",
+        r"under (?:the )?penalt(?:y|ies) of perjury",
+        r"\bunder oath\b",
         r"oath or affirmation",
         r"unsworn declaration",
         r"sworn statement",
-        r"affidavit",
+        r"\baffidavit",
+        r"notarized",
+        r"acknowledged before a notary",
     ],
 }
 COMPILED = {b: [re.compile(p, re.I) for p in ps] for b, ps in PATTERNS.items()}
@@ -109,7 +138,12 @@ def main() -> None:
     if args.detail:
         target = args.detail.upper()
         for label, group, text in texts(which):
-            if group.upper() != target and not label.upper().startswith(target):
+            up = label.upper()
+            if not (
+                group.upper() == target
+                or up == target
+                or re.match(rf"{re.escape(target)}[-. ]", up)
+            ):
                 continue
             for bucket, rxs in COMPILED.items():
                 for rx in rxs:
@@ -127,13 +161,13 @@ def main() -> None:
 
     agy = agencies()
     rows = sorted(counts.items(), key=lambda kv: -kv[1]["PROOFING"])
-    print(f"{'GROUP':<10} {'PROOF':>6} {'DOC':>6} {'COLLECT':>8} {'ATTEST':>7}  WHO")
+    print(f"{'GROUP':<10} {'PROOF':>6} {'DOC':>6} {'ATTRIB':>7} {'COLLECT':>8} {'ATTEST':>7}  WHO")
     for group, c in rows:
-        if not (c["PROOFING"] or c["DOCUMENT"]):
+        if not sum(c.values()):
             continue
         print(
-            f"{group:<10} {c['PROOFING']:>6} {c['DOCUMENT']:>6} {c['COLLECTION']:>8} "
-            f"{c['ATTESTATION']:>7}  {agy.get(group, '')}"
+            f"{group:<10} {c['PROOFING']:>6} {c['DOCUMENT']:>6} {c['ATTRIBUTE']:>7} "
+            f"{c['COLLECTION']:>8} {c['ATTESTATION']:>7}  {agy.get(group, '')}"
         )
 
 

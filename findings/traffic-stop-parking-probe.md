@@ -63,7 +63,7 @@ you are.
 
 ## Paying a parking ticket — no identity requirement in state law
 
-**Nothing found.** Searching the statutes and all 690 court rules for fine-payment language occurring
+**Nothing found.** Searching the statutes and all 661 court rules for fine-payment language occurring
 near identity language returns **zero** hits.
 
 The payment mechanism is designed to avoid the person entirely. §77-7-21(1)(b) permits an individual

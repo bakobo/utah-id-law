@@ -2,7 +2,7 @@
 
 Resolves the question left open by earlier findings — filing a court petition — and extends to
 posting bail, appearing as a witness, and visiting someone in custody. Answerable now because the
-**court rules** corpus was added (690 rules across six sets; see `tools/fetch-utah-court-rules.py`).
+**court rules** corpus was added (661 rules across six sets; see `tools/fetch-utah-court-rules.py`).
 
 **Court rules** are the third body of Utah law: promulgated by the **Utah Supreme Court** under its
 constitutional rulemaking power, not by the legislature or an agency. They govern procedure in the
@@ -10,22 +10,50 @@ courts and appear in neither the Utah Code nor the Administrative Code.
 
 ## The headline number
 
-Across all **690 court rules**:
+> **Corrected 2026-07-29.** This section previously claimed *zero* identity-proofing requirements
+> across *690* court rules. Both numbers were wrong. An adversarial review of the sweep tool found
+> that its `verif…identity` pattern could not see a possessive noun (`verify the victim's identity`)
+> and that its document-presentation pattern matched **nothing at all** corpus-wide. The corpus also
+> contained 29 duplicate files — the index lists some rules twice differing only in case, and the
+> fetcher stored both. The true count is **661 rules**, and nine of them impose identity duties. The
+> corrected finding below is narrower, and better.
+
+Across all **661 court rules**, using repaired patterns:
 
 | | PROOFING | DOCUMENT | ATTESTATION |
 |---|---|---|---|
-| URCP (Civil Procedure) | **0** | 0 | 120 |
-| URCrP (Criminal Procedure) | **0** | 0 | 29 |
-| URE (Evidence) | **0** | 0 | 8 |
-| URAP (Appellate) | **0** | 2* | 26 |
-| URJP (Juvenile) | **0** | 0 | 14 |
-| UCJA (Judicial Administration) | **0** | 1 | 20 |
+| URCP (Civil Procedure) | **0** | **0** | 109 |
+| URE (Evidence) | **0** | **0** | 11 |
+| URAP (Appellate) | **0** | **0** | 23 |
+| URCrP (Criminal Procedure) | 0 | 1 | 31 |
+| URJP (Juvenile) | 0 | 3 | 18 |
+| UCJA (Judicial Administration) | 3 | 14 | 29 |
 
-\* Both URAP hits are "documentary evidence" in the evidentiary sense, not identity documents.
+The nine rules carrying identity duties, and where they cluster:
 
-**Zero identity-proofing requirements in the entire body of Utah court rules**, against 217
-occurrences of oath, affirmation, unsworn declaration, affidavit, or penalty of perjury. Utah's
-courts run on attestation, comprehensively and by design.
+| Rule | Duty |
+|---|---|
+| UCJA-4-202.12(1)(A)(ii) | "*other documentation sufficient to **verify the victim's identity***" |
+| UCJA-4-202.03(2) | "*presentation of **positive identification***" for adoption and expungement records |
+| UCJA-4-202.04(1)(B) | requester of a non-public record "*must **present identification***" |
+| UCJA-4-202.05(1) | requester "*shall **present identification***" |
+| UCJA-3-414(8)(B) | officer "***presents valid picture identification***" — courthouse weapons |
+| UCJA-4-609 | mandatory **fingerprinting** and offence-tracking number for unbooked defendants |
+| URCrP-16(f) | court-ordered lineup, **fingerprinting**, bodily impressions |
+| URJP-27(a) | motion to **photograph or fingerprint** a child under 14 |
+| UCJA-4-907(6)(A) | "*valid form of **photo identification***" for the divorce/parenting class |
+
+**The corrected claim.** No Utah court rule requires a party to prove identity in order to **file,
+testify, or post bail** — URCP, URE and URAP are genuinely at zero on both proofing and document
+presentation. The identity duties that exist attach to three things instead: **records access**
+(4-202.03/.04/.05/.12), **courthouse security** (3-414), and **compulsory process against
+defendants** (4-609, URCrP-16, URJP-27). Against that, **192** occurrences of oath, affirmation,
+unsworn declaration, affidavit or penalty of perjury — the published 217 double-counted the
+duplicate files.
+
+That pattern is more informative than the "zero" it replaces: the courts demand identity to let you
+**read a sealed record** or **carry a weapon into a courthouse**, and to fingerprint a defendant —
+but never to invoke the court's jurisdiction in the first place.
 
 ## Filing a court petition — no identification required
 
@@ -47,10 +75,11 @@ filer: URCP-26.2(b)(3) makes a personal-injury plaintiff disclose their own SSN 
 (to satisfy Medicare reporting under 42 U.S.C. §1395y(b)(8)); URCP-64D(d) makes a garnishing
 plaintiff supply the *defendant's* identifiers.
 
-**The single photo-ID requirement in all 690 rules** is UCJA-4-907(6)(A): a person attending the
-mandatory divorce/parenting orientation course "*shall present a valid form of photo identification
-and pay the course fee.*" You can file the divorce petition without showing ID; you must show ID to
-attend the class it triggers.
+**No photo ID is required to file.** The contrast that survives correction: UCJA-4-907(6)(A)
+requires a person attending the mandatory divorce/parenting orientation course to "*present a valid
+form of photo identification and pay the course fee.*" You can file the divorce petition without
+showing ID; you must show ID to attend the class it triggers. (This is one of five
+ID-presentation rules in the corpus, not the only one — see the corrected table above.)
 
 ## Posting bail — depends entirely on the instrument
 

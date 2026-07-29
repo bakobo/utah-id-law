@@ -28,7 +28,7 @@ interaction by interaction and range from nothing, through attestation, to docum
 |---|---|---|
 | **Utah Code** (statute) | The legislature | 96 titles |
 | **Utah Administrative Code** (rules) | Agencies, under authority delegated in statute | 2,294 rules |
-| **Utah court rules** | The Utah Supreme Court, under its rulemaking power | 690 rules |
+| **Utah court rules** | The Utah Supreme Court, under its rulemaking power | 661 rules |
 
 Checking one layer is not enough, and this was learned the hard way twice. The fishing-licence
 identity requirements turned out to exist **only** in the administrative rules, with nothing in the
@@ -39,7 +39,7 @@ statute. The court-filing question was simply unanswerable until the court rules
 ```
 corpus/utah-code/                 96 titles, version-stamped XML, gzipped (86 MB → 15 MB)
 corpus/admin-rules/               2,294 current rules, extracted text, gzipped (36 MB → 16 MB)
-corpus/court-rules/               690 rules across six sets (URCP, URCrP, URE, URAP, URJP, UCJA)
+corpus/court-rules/               661 rules across six sets (URCP, URCrP, URE, URAP, URJP, UCJA)
 corpus/MANIFEST-*.tsv             source URL, retrieval date, bytes, SHA-256 per item
 tools/fetch-utah-code.py          refetch statutes (all titles, or named)
 tools/fetch-utah-admin-rules.py   refetch admin rules (all, or named prefixes)
@@ -74,9 +74,12 @@ corpus exists so that any citation can be checked mechanically rather than trust
 be reproduced from a local file, the claim is deleted rather than softened. See
 [`docs/research-strategy.md`](docs/research-strategy.md).
 
-A worked example of why: Title 78B once ranked among the top identity-proofing titles in a keyword
-sweep — until the hits turned out to be a *blockchain* definitions section. Counts are pointers to
-read, never findings.
+Two worked examples of why. Title 78B once ranked among the top identity-proofing titles in a keyword
+sweep — until the hits turned out to be a *blockchain* definitions section. And an adversarial review
+of the sweep tool itself (2026-07-29) found its patterns could not see `verify the victim's identity`
+(a possessive noun) and that its document-presentation pattern matched *nothing at all*, which had
+produced a published "zero requirements" claim that was false. Counts are pointers to read, never
+findings — including our own. Corrections are marked inline in the affected files.
 
 ## Findings
 
@@ -87,9 +90,9 @@ read, never findings.
   birth, address and physical description without requiring anyone to *verify* it.
 - [**Survey across interaction types**](findings/interaction-survey.md) — LLC formation, records
   requests, utilities, real property, voter registration, alcohol and tobacco, school enrolment.
-- [**Courts, bail, testimony, jail visits**](findings/courts-bail-jail-probe.md) — zero
-  identity-proofing requirements across all 690 court rules, against 217 occurrences of oath,
-  affirmation, declaration, affidavit or perjury.
+- [**Courts, bail, testimony, jail visits**](findings/courts-bail-jail-probe.md) — no court rule
+  requires proving identity to file, testify or post bail; the nine rules that do impose identity
+  duties attach to records access, courthouse security, and compulsory process against defendants.
 - [**Traffic stops and parking tickets**](findings/traffic-stop-parking-probe.md) — the sharpest
   contrast in the repo. A lawful stop compels disclosure of name or date of birth (§76-8-301.5,
   class B misdemeanour) and a driver must display a licence (§53-3-217); paying a parking ticket

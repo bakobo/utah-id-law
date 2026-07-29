@@ -184,44 +184,30 @@ identification numbers." Each asks the applicant to *supply* an identifier. None
 self-reported attributes, on a prescribed form. They do not mandate **identity proofing**. Those are
 different duties (see the table in `docs/research-strategy.md` §1), and only the first is imposed.
 
-## 7. First read across the whole Code — directional, not conclusive
+## 7. First read across the whole Code — superseded, see correction
 
-With all 96 titles retrieved, a keyword sweep gives a preliminary read on the general claim:
+> **Corrected 2026-07-29.** The keyword sweep reported here was run with patterns later found to be
+> badly broken: `verif…identity` could not match a possessive noun, so `verify the applicant's
+> identity` was invisible, undercounting the Code roughly fourfold. Two specific claims below were
+> wrong and are struck. The qualitative conclusion — that attestation language vastly outnumbers
+> identity-verification language — survives, but the numbers do not.
 
-| Phrase | Occurrences in the Utah Code |
-|---|---|
-| "under penalty of perjury" | **89** |
-| "verif… the identity" | 17 |
-| "identity verification" | 10 |
-| "proof of identity" | 4 |
-| "valid photo identification" | 0 |
-| "strongly identif…" | 0 |
+**Struck:** *"Title 26B … contains exactly one occurrence."* With repaired patterns Title 26B has
+**five**, including §26B-2-224, which lets a hospital "*document or confirm patient identity by:
+photograph; fingerprinting; palm scan.*"
 
-Attestation language outnumbers all identity-verification phrasings combined by roughly 3:1 — the
-same design preference the two statutes above showed, visible at the scale of the whole code.
+**Struck:** the per-title ranking. It omitted **Title 46 (Notaries Public) entirely** — which the
+repaired sweep scores as the **densest identity-proofing title in the Utah Code (31 hits)**, and
+which is the source of this repo's flagship strong-identification example, §46-1-2(25). A tool that
+scored the notary title at zero was not the instrument that found that example; close reading was.
 
-Where the identity-verification language *does* appear is equally suggestive. By title:
-Title 59 (Revenue and Taxation) 9 · Title 78B (Judicial Code) 6 · Title 20A (Election Code) 5 ·
-Title 63A (Government Operations) 4 · Title 53 (Public Safety) 2 · Titles 13, 17, 26B, 63G, 76 one
-each. **Title 23A (Wildlife Resources): zero.**
+The corrected top of the ranking: **Title 46 (31) · Title 20A (22) · Title 63A (11) · Title 53 (8) ·
+Title 59 (7) · Title 78B (6, still mostly the blockchain false positive) · Title 81 (6) ·
+Title 26B (5).**
 
-The clustering is in tax administration, courts, elections, and driver licensing — fraud-sensitive
-and franchise contexts — rather than in benefits delivery. Most striking: **Title 26B (Health and
-Human Services)**, the title under which Utah administers Medicaid, food assistance, and child
-welfare, contains exactly **one** occurrence, and it is not a mandate to identify recipients:
-
-> **§26B-1-202(2)(pp)** — [the department may] establish methods or measures for health care
-> providers, public health entities, and health care insurers **to coordinate among themselves** to
-> verify the identity of the individuals the providers serve
-
-That is a grant of rulemaking authority about provider coordination, not a duty to strongly identify
-benefit applicants. The Title 63A hits are similar in kind: §63A-12-117 concerns electronic-record
-notarization, and §63A-20-204 is SEDI itself, listing prospective use cases.
-
-**Treat this as directional.** Keyword frequency is not a proof of absence: a statute can impose a
-verification duty without using any of these phrases ("shall present a valid driver license,"
-"documentary evidence of," "shall establish the applicant's identity"). Closing that gap is exactly
-what the phrase-family sweep in `docs/research-strategy.md` is for.
+**Holds:** attestation still dominates — "under penalty of perjury" and its relatives outnumber
+identity-proofing language across the Code by a wide margin. **Holds:** Title 23A (Wildlife
+Resources) is still at **zero** under the repaired patterns, independently re-confirmed.
 
 ## 8. Where the claim does hold — Medicaid and child care
 

@@ -5,27 +5,30 @@ Answers the objection that earlier findings were too narrow — they sampled thr
 domains** (`tools/sweep-identity.py`), then reads the hits for the specific interaction types a
 person is likely to have with the state.
 
-The sweep buckets language into three legally distinct duties: **PROOFING** (validate a claimed
-identity against authoritative evidence), **DOCUMENT** (present a specific credential), and
-**COLLECTION** (supply attributes, with no duty on anyone to check them).
+The sweep buckets language into legally distinct duties: **PROOFING** (validate a claimed identity
+against authoritative evidence), **DOCUMENT** (present a specific credential), **ATTRIBUTE** (prove
+age, residency or citizenship — a status, not an identity), **COLLECTION** (supply attributes, with
+no duty on anyone to check them), and **ATTESTATION** (swear to it, be punished if false).
 
 ## Where the identity duties actually concentrate
 
 Statutes, ranked by proofing language:
 
+> **Corrected 2026-07-29** with repaired sweep patterns; the original counts came from regexes that
+> could not see possessive constructions and whose document-presentation pattern matched nothing.
+
 | Title | Proof | Doc | Subject |
 |---|---|---|---|
-| **46** — Notaries Public | 17 | 0 | Notarial acts (gateway to real property) |
-| **59** — Revenue and Taxation | 9 | 2 | Tax administration |
-| **63A** — Government Operations | 9 | 5 | Records, notarisation, **SEDI** |
-| **20A** — Election Code | 7 | 7 | Voter registration |
-| **26B** — Health and Human Services | 6 | 31 | Benefits, vital records |
-| **78B** — Judicial Code | 6 | 4 | *(mostly false positives — see below)* |
-| **53** — Public Safety | 4 | 20 | Driver licensing |
-| **32B** — Alcoholic Beverages | 0 | **64** | Proof of age |
-| **76** — Criminal Code | 2 | 20 | Proof-of-age offences, fraud |
-| **48** — LLCs / partnerships | **0** | **0** | Entity formation |
-| **54** — Public Utilities | **0** | **0** | Utility service |
+| **46** — Notaries Public | 31 | 8 | Notarial acts (gateway to real property) |
+| **20A** — Election Code | 22 | 100 | Voter registration, petitions |
+| **63A** — Government Operations | 11 | 13 | Records, notarisation, **SEDI** |
+| **53** — Public Safety | 8 | 174 | Driver licensing |
+| **59** — Revenue and Taxation | 7 | 3 | Tax administration |
+| **78B** — Judicial Code | 6 | 8 | *(mostly the blockchain false positive)* |
+| **81** — Domestic Relations | 6 | 36 | Marriage licences |
+| **26B** — Health and Human Services | 5 | 122 | Benefits, vital records |
+| **54** — Public Utilities | 2 | 0 | Carrier-switch subscriber verification |
+| **48** — LLCs / partnerships | **0** | **0** | Entity formation (but see below) |
 | **10** — Cities and Towns | **0** | **0** | Municipal services |
 
 ## Interaction by interaction
@@ -61,27 +64,35 @@ is on the parent.
 
 **Creating an LLC.** Title 48 contains **zero** occurrences of *proof of identity*, *identification*,
 or *social security number*. A Utah LLC can be formed without anyone verifying who the organiser is.
+It is not, however, requirement-free: §48-3a-x provides that an individual signing a filed record
+"*affirms under penalty of perjury that the information stated in the record is accurate*" — the
+attestation model again. The original sweep hid this, because its summary table dropped any title
+with no proofing or document hits; that display filter is now removed.
 
 **Filing a GRAMA (public records) request.** §63G-2-204(1)(a) requires only "*the person's name;
 mailing address; email address*." Pure self-asserted collection — the closest analogue to the fishing
 licence.
 
-**Turning on utilities / paying a city water bill.** Title 54 (Public Utilities) and Title 10 (Cities
-and Towns) contain no identity-proofing or SSN language at all. Whatever a utility asks for is its
-own credit policy, not a state legal requirement.
+**Paying a city water bill.** Title 10 (Cities and Towns) contains no identity-proofing or SSN
+language at all; what a municipal utility asks for is its own credit policy, not a state legal
+requirement. **Corrected:** Title 54 (Public Utilities) is *not* silent, as originally stated —
+§54-8b-18(3)(a) requires a third-party verifier to "*confirm the subscriber's identity with
+information unique to the customer*" when a telecommunications carrier is switched. That is an
+anti-slamming control on the carrier, not a condition of getting service.
 
 **Filing a complaint with a state ombudsman.** Effectively nothing across the corpus.
 
 **Fishing licence.** §23A-4-601(2) — fee only; R657-45-2(2) mandates *collection* of name, DOB,
 address and physical description without any duty to verify.
 
-### Genuinely uncertain
+### Resolved since this survey was written
 
-**Filing a court petition.** The Title 78B proofing hits are **false positives**: §78B-3-112 is a
-blockchain-definitions section that happens to define "proof of identity," and §78B-6-817 concerns
-law enforcement identifying trespassers. Neither is about filing. But civil procedure in Utah is set
-by the **Utah Rules of Civil Procedure**, promulgated by the Utah Supreme Court — a third body of law
-in **neither corpus**. Treat court filing as unresolved.
+**Filing a court petition — no identification required.** The Title 78B proofing hits are **false
+positives**: §78B-3-112 is a blockchain-definitions section that happens to define "proof of
+identity," and §78B-6-817 concerns law enforcement identifying trespassers. Neither is about filing.
+The question was left open here because civil procedure is set by the Utah Rules of Civil Procedure,
+then held in no corpus. The court rules have since been added and the question answered — URCP-11(a)(2)
+requires no notarisation. See [`courts-bail-jail-probe.md`](courts-bail-jail-probe.md).
 
 ## Two corrections to the earlier framing
 
@@ -96,6 +107,6 @@ in **neither corpus**. Treat court filing as unresolved.
 
 ## Methodological gap
 
-Three bodies of law bear on these questions; this repo holds two. Missing: **Utah Rules of Civil
-Procedure / Rules of Evidence** (Supreme Court), and the **federal** conditions (42 C.F.R. §435.406,
-7 C.F.R. §273.2, 6 C.F.R. Part 37) read here only through the Utah rules implementing them.
+All three Utah bodies of law are now held here — the court rules were added after this survey was
+written. Still missing: the **federal** conditions (42 C.F.R. §435.406, 7 C.F.R. §273.2, 6 C.F.R.
+Part 37), read here only through the Utah rules implementing them, and **case law**.

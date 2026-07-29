@@ -89,7 +89,7 @@ def body_of(text: str, rule_id: str) -> tuple[str, str]:
     Every page wraps the rule in ~15 lines of site navigation. The rule proper starts at the
     "Rule <id>." heading -- which the page indents, so the match must tolerate leading space.
     """
-    m = re.search(rf"^[ \t]*Rule {re.escape(rule_id)}\.[ \t]*(.*)$", text, re.M)
+    m = re.search(rf"^[ \t]*Rule {re.escape(rule_id)}\.[ \t]*(.*)$", text, re.M | re.I)
     if not m:
         return "", text
     body = text[m.start():].lstrip()
@@ -106,8 +106,18 @@ def body_of(text: str, rule_id: str) -> tuple[str, str]:
 
 def rule_ids(key: str) -> list[str]:
     html = get(f"{HOST}/{key}.php").decode("utf-8", "replace")
-    ids = sorted(set(re.findall(r"rule=([0-9A-Za-z_.-]+)", html)))
-    return [r for r in ids if not re.fullmatch(r"\d+[A-Za-z]?S", r)]  # drop superseded
+    ids = re.findall(r"rule=([0-9A-Za-z_.-]+)", html)
+    # The index lists some rules twice differing only in case (64D and 64d). Fetching both
+    # produced 29 duplicate files and inflated every per-corpus denominator, so dedupe
+    # case-insensitively, preferring the first spelling seen.
+    seen, out = {}, []
+    for r in ids:
+        if re.fullmatch(r"\d+[A-Za-z]?S", r):  # drop rules superseded in 2011
+            continue
+        if r.casefold() not in seen:
+            seen[r.casefold()] = r
+            out.append(r)
+    return sorted(out, key=str.casefold)
 
 
 def main() -> None:
