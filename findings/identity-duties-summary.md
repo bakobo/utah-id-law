@@ -1,34 +1,43 @@
 # When does Utah law require identifying a person? — summary
 
-**Verdict on the proposition: accurate, with three refinements.** No general duty exists to correlate
-a person to an authoritative identity record, but specific interactions impose one, and dereliction
+**Verdict on the proposition: accurate, with four refinements.** No general duty exists to correlate
+a person to an authoritative identity record. Specific interactions do impose one, and dereliction
 there would be non-compliance.
 
 ## How this was derived
 
-Two corpora were retrieved in full on 2026-07-28: all **96 titles of the Utah Code** (statute, from
-le.utah.gov, as version-stamped XML) and all **2,294 current rules of the Utah Administrative Code**
-(adminrules.utah.gov).
+Three corpora, retrieved in full — the whole body of Utah law bearing on the question. The **Utah
+Code** (96 titles) is the legislature's. The **Utah Administrative Code** (2,294 rules) is made by
+agencies under authority delegated in statute, through the Utah Administrative Rulemaking Act (Title
+63G, Ch. 3), and holds operative detail statutes omit. **Court rules** (690) are promulgated by the
+Utah Supreme Court under its constitutional rulemaking power and govern court procedure. Each layer
+proved decisive somewhere: the fishing-licence identity provisions exist only in the rules, and court
+filing was unanswerable until the court rules arrived.
 
-**Rules** are administrative rules — binding law made by agencies under authority the legislature
-delegates in statute, adopted through the Utah Administrative Rulemaking Act (Title 63G, Ch. 3) and
-published by the Office of Administrative Rules. They carry legal force and hold operative detail
-statutes omit, which is why statute alone is insufficient: the fishing-licence identity provisions
-exist only at the rule layer.
-
-Method: a full-text sweep of both corpora for identity-duty phrase families, bucketed into
-**proofing** (validate against authoritative evidence), **document presentation**, and **collection**
-(supply attributes, nobody checks), then close reading of the hits. This is **not** an exhaustive
-reading, and keyword counts are pointers rather than findings — Title 78B ranked among the top
-proofing titles until its hits proved to be a *blockchain* definitions section (§78B-3-112).
+Method: a full-text sweep for identity-duty phrase families, bucketed into **proofing** (validate
+against authoritative evidence), **document presentation**, **collection** (nobody checks), and
+**attestation** (swear to it, be punished if false), then close reading of the hits. This is **not**
+an exhaustive reading of ~3,100 instruments, and counts are pointers rather than findings: Title 78B
+ranked among the top proofing titles until its hits proved to be a *blockchain* definitions section
+(§78B-3-112).
 
 ## Where nothing is required
 
 **Creating an LLC** — Title 48 contains zero occurrences of *proof of identity*, *identification*, or
-*social security number*. **Filing a GRAMA (public records) request** — §63G-2-204(1)(a) requires only
-"*the person's name; mailing address; email address.*" **Turning on utilities or paying a city water
-bill** — Titles 54 and 10 are silent; whatever a utility asks is its own credit policy, not law.
-**Ombudsman complaints** — effectively nothing.
+*social security number*. **A GRAMA (public records) request** — §63G-2-204(1)(a) requires only "*the
+person's name; mailing address; email address.*" **Utilities or a city water bill** — Titles 54 and
+10 are silent; whatever a utility asks is its own credit policy. **Ombudsman complaints** — nothing.
+
+**Filing a court petition.** URCP-11(a)(2): "*Unless required by statute, a paper need not be
+accompanied by affidavit or have a notarized, verified or acknowledged signature*," and where a rule
+does require one, "*the person may submit an unsworn declaration*" (Title 78B, Ch. 18a).
+
+**Testifying.** URE-601(a) makes every person competent as a witness; URE-603 requires only "*an oath
+or affirmation to testify truthfully … in a form designed to impress that duty on the witness's
+conscience.*" No rule asks a witness to prove who they are.
+
+**Posting cash bail.** §77-20-401(1) enumerates payment methods — cash, cashier's check, money order,
+credit card — and imposes no identity requirement on whoever pays.
 
 ## Where collection is required but proofing is not
 
@@ -37,14 +46,18 @@ Board, a person may obtain a license to fish.*" Yet R657-45-2(2) requires forms 
 licensee's customer identification number, name, date of birth, address, height, weight, eye color,
 hair color, gender.*" An agency failing to gather these **would** be out of compliance; nothing
 obliges anyone to validate them. Precisely: **identity assertion** is mandatory, **identity proofing**
-is not. Misrepresentation is deterred afterward by §23A-4-1101 (class B misdemeanour), not prevented
-by a gate.
+is not. Misrepresentation is deterred afterward by §23A-4-1101 (class B misdemeanour).
 
-The general benefits provision shares this design. §63G-12-402 verifies *lawful presence* — a status,
-not an identity — only for applicants 18 or older, and prescribes its method at (4)(a): applicants
-"*certify under penalty of perjury.*" The federal SAVE check at (5) is triggered only by (4)(a)(ii),
-the non-citizen branch, so for a citizen signing the form is the entire procedure. Subsection (3)
-exempts emergency care, immunisations, disaster relief, shelter and retirement benefits outright.
+**Visiting someone in custody** shows the same line drawn in a single breath. R251-305: "*(11)
+visitors **shall** be required to sign a visitor log … (12) visitors **may** be required to present
+picture identification.*" The log is a duty; the ID check is a discretionary power, so a facility
+that never asked would not be out of compliance.
+
+The general benefits provision shares the design. §63G-12-402 verifies *lawful presence* — a status,
+not an identity — only for applicants 18 or older, by "*certif[ying] under penalty of perjury*"
+((4)(a)). The SAVE check at (5) is triggered only by the non-citizen branch, (4)(a)(ii), so for a
+citizen signing the form is the entire procedure. Subsection (3) exempts emergency care,
+immunisations, shelter and retirement benefits outright.
 
 ## Where stronger identification is required
 
@@ -52,33 +65,45 @@ exempts emergency care, immunisations, disaster relief, shelter and retirement b
 
 - **Real property.** §46-1-2(25) defines "*satisfactory evidence of identity*" as "*unexpired personal
   identification that includes the individual's photograph, signature, and physical description*,"
-  required for the acknowledgment every recorded deed needs (§46-1-2(1)); adopted by the county
-  recorder rules at R255-30.
+  required for the acknowledgment every recorded deed needs (§46-1-2(1)); adopted by county recorder
+  rules at R255-30. Same route for a **real property bail bond**, which URCP-72(a) requires to "*be
+  acknowledged before a notary public.*"
 - **Voter registration and party affiliation.** §20A-1-102(20) defines "*documentary proof of United
   States citizenship*"; §20A-2-104 also collects the last four SSN digits.
 - **Alcohol and tobacco.** §32B-1-102(100) defines "proof of age"; §32B-1-407 governs "*verification
-  of proof of age by applicable licensees.*" Tobacco parallels at §76-9-1117. Notably the definition
-  now expressly includes a State-Endorsed Digital Identity and excludes a driving privilege card.
+  of proof of age by applicable licensees*" (tobacco parallels at §76-9-1117). That definition now
+  expressly includes a State-Endorsed Digital Identity and excludes a driving privilege card.
 - **School enrolment.** §53G-6-603 requires "*a certified copy of the student's birth certificate*" or
   "*other reliable proof.*"
 - **Medicaid.** R414-308-4(4): where citizenship and identity "*do not match through the Social
-  Security electronic match process,*" the applicant must supply "*original documentation*" within 90
-  days (implementing 42 U.S.C. §1396a(ee)).
-- **Child care assistance.** R986-700-702(3)(a): "*A client must verify identity.*"
+  Security electronic match process,*" the applicant must supply "*original documentation*"
+  (implementing 42 U.S.C. §1396a(ee)). **Child care** — R986-700-702(3)(a): "*A client must verify
+  identity.*"
+- **Prison sponsors.** R251-306 requires "*positive identification*" — a document with photograph and
+  date of birth — plus a Bureau of Criminal Identification check.
+- **Criminal defendants**, most thoroughly of all: §77-20-202(1)(a) requires jail staff to report an
+  arrestee's aliases, date of birth, and **state identification number**; URCrP-16(f)(1) permits
+  court-ordered lineups and fingerprinting — but compulsorily, not as an entitlement interaction.
+  Utah even contemplates proceeding against people it cannot identify: URCrP-4(b)(1)(A) names an
+  unknown defendant "*John or Jane Doe.*"
 
 ## Who carries the duty
 
-**Refinement 3, and the most consequential.** In the strongest cases the verifier is not a state
-agency but a **commissioned notary, a licensed retailer, or a parent**. "Utah law requires strong
-identification" and "a state agency must strongly identify you" are different propositions; the
-second is markedly rarer. Where the state itself proofs, it is overwhelmingly under **federal
-conditions on federally funded means-tested benefits** (42 C.F.R. §435.406/407) — and even then
-match-first, with documentary proof only on mismatch.
+**Refinement 3, and the most consequential.** In the strongest voluntary cases the verifier is a
+**commissioned notary, a licensed retailer, or a parent** — not a state agency. "Utah law requires
+strong identification" and "a state agency must strongly identify you" are different propositions;
+the second is markedly rarer. Where the state itself proofs, it is overwhelmingly under **federal
+conditions on federally funded means-tested benefits** (42 C.F.R. §435.406/407), and even then
+match-first, with documents only on mismatch.
 
-## Unresolved
+## The courts are the strongest evidence
 
-**Filing a court petition.** Utah civil procedure is set by the **Rules of Civil Procedure**,
-promulgated by the Utah Supreme Court — the third body of law, held in neither corpus.
+**Refinement 4.** Across all 690 court rules there are **zero** identity-proofing requirements,
+against 217 occurrences of oath, affirmation, unsworn declaration, affidavit, or penalty of perjury.
+The single photo-ID requirement is UCJA-4-907(6)(A) — attending the mandatory divorce/parenting
+class. You may file a petition, testify, and post bail without proving who you are; you must show ID
+to attend the class. The branch with most at stake in knowing who stands before it requires no
+proofing at all.
 
-**Bottom line:** assurance is set interaction by interaction, ranging from nothing, through
-attestation, to documentary proof. **Utah has no general identity-assurance baseline.**
+**Bottom line:** assurance is set interaction by interaction — nothing, attestation, collection, or
+documentary proof. **Utah has no general identity-assurance baseline.**
