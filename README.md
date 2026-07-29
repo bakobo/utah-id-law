@@ -1,97 +1,133 @@
 # utah-id-law — when does Utah law require identifying a person?
 
-Primary-source research on **identity-verification duties in Utah law**: which interactions between a
-person and the state carry a legal requirement to verify identity, what "verify" means in each, and
-which do not.
+**This is a share of research findings and the primary sources behind them. Nothing more.**
 
-This is the **baseline that SEDI is layered onto**, and it is a separate repo for a reason.
-[`../sedi`](../sedi) is deliberately scoped to SEDI alone after a review found adjacent material
-creeping in dressed as SEDI fact. General Utah identity law is adjacent, useful, and *not SEDI* —
-so it lives here and is cross-linked, not merged.
+It is offered **without warranty of any kind** and **without any claim of legal gravitas**. It was
+produced by non-lawyers doing textual research, with substantial AI assistance. It is not legal
+advice, not an authoritative statement of Utah law, and not a substitute for a lawyer. If something
+here matters to a decision you are making, verify it against the authoritative sources — which are
+linked from every claim — and talk to someone qualified.
+
+What it *is*: a searchable local copy of three bodies of Utah law, a small set of tools for quoting
+and searching them, and a handful of written-up questions with every assertion tied to a citation you
+can check yourself. The value is in the sources and the traceability, not in our authority. We have
+none.
+
+## The question
+
+Which interactions between a person and the state of Utah carry a legal requirement to verify
+identity, what "verify" means in each, and which carry no such requirement at all.
+
+The short answer: **Utah has no general identity-assurance baseline.** Requirements are set
+interaction by interaction and range from nothing, through attestation, to documentary proof. See
+[`findings/identity-duties-summary.md`](findings/identity-duties-summary.md).
+
+## Three layers, and why all three matter
+
+| Corpus | Made by | Size |
+|---|---|---|
+| **Utah Code** (statute) | The legislature | 96 titles |
+| **Utah Administrative Code** (rules) | Agencies, under authority delegated in statute | 2,294 rules |
+| **Utah court rules** | The Utah Supreme Court, under its rulemaking power | 690 rules |
+
+Checking one layer is not enough, and this was learned the hard way twice. The fishing-licence
+identity requirements turned out to exist **only** in the administrative rules, with nothing in the
+statute. The court-filing question was simply unanswerable until the court rules were added.
 
 ## Layout
 
 ```
-corpus/utah-code/          all 96 titles of the Utah Code as gzipped XML (86 MB → 15 MB)
-corpus/admin-rules/        all ~2,295 current administrative rules as gzipped text (44 MB → 12 MB)
-corpus/MANIFEST-*.tsv      source URL, retrieval date, bytes, SHA-256 per item
-tools/fetch-utah-code.py   refetch the statutes (all titles, or named ones)
-tools/fetch-utah-admin-rules.py  refetch the rules (all, or named prefixes)
-tools/cite.py              pull verbatim text of a section or rule; search either layer
-docs/research-strategy.md  how research here is done — read before starting
-findings/                  answered questions, each citing the corpus
-sources/registry.md        live URL ⇄ local copy ⇄ retrieval date
+corpus/utah-code/                 96 titles, version-stamped XML, gzipped (86 MB → 15 MB)
+corpus/admin-rules/               2,294 current rules, extracted text, gzipped (36 MB → 16 MB)
+corpus/court-rules/               690 rules across six sets (URCP, URCrP, URE, URAP, URJP, UCJA)
+corpus/MANIFEST-*.tsv             source URL, retrieval date, bytes, SHA-256 per item
+tools/fetch-utah-code.py          refetch statutes (all titles, or named)
+tools/fetch-utah-admin-rules.py   refetch admin rules (all, or named prefixes)
+tools/fetch-utah-court-rules.py   refetch court rules (all, or named sets)
+tools/cite.py                     quote a section or rule; search any layer
+tools/sweep-identity.py           map identity-duty language across all three corpora
+docs/research-strategy.md         how the research is done — read before adding to it
+findings/                         written-up questions, each citing the corpus
+sources/registry.md               live URL ⇄ local copy ⇄ retrieval date
 ```
 
-## Using the corpus
+## Using it
 
 ```sh
-python3 tools/cite.py 23A-4-601                       # verbatim text of a Code section
+python3 tools/cite.py 23A-4-601                       # a Utah Code section
 python3 tools/cite.py 63G-12                          # a whole chapter
 python3 tools/cite.py R657-45-2                       # an administrative rule section
+python3 tools/cite.py URCP-11                         # a court rule
 python3 tools/cite.py --grep 'lawful presence'        # Code sections matching a pattern
-python3 tools/cite.py --grep 'perjury' --title 26B    # ...within one title
 python3 tools/cite.py --grep 'identity' --title R657  # ...across one rule family
+python3 tools/cite.py --grep 'oath' --courts          # ...across the court rules
+python3 tools/sweep-identity.py                       # where identity duties concentrate
 
-rg -z 'proof of identity' corpus/                     # raw search (gzip is transparent to rg -z)
-python3 tools/fetch-utah-code.py 23A 63G              # refresh specific titles
-python3 tools/fetch-utah-admin-rules.py R657          # refresh a rule family
+rg -z 'proof of identity' corpus/                     # raw search; rg -z reads gzip directly
 ```
 
-**Check both layers, always.** Statutes delegate heavily. In the fishing probe the statute imposed
-no identity requirement at all, and the operative requirement — collect name, date of birth,
-address, and physical description — was in the *rule*.
+## The one working rule
 
-## The one rule
-
-**Quote-or-drop.** Every claim about Utah law must carry a section number *and* a verbatim quote
-retrievable from `corpus/`. Models fabricate statute citations fluently and confidently; the corpus
-exists so that any citation can be mechanically checked. If the quote cannot be reproduced from a
-local file, the claim is deleted rather than hedged. See
+**Quote-or-drop.** Every claim about Utah law must carry a citation *and* a verbatim quote
+retrievable from `corpus/`. Language models fabricate statute citations fluently and confidently; the
+corpus exists so that any citation can be checked mechanically rather than trusted. If a quote cannot
+be reproduced from a local file, the claim is deleted rather than softened. See
 [`docs/research-strategy.md`](docs/research-strategy.md).
 
-## Findings so far
+A worked example of why: Title 78B once ranked among the top identity-proofing titles in a keyword
+sweep — until the hits turned out to be a *blockchain* definitions section. Counts are pointers to
+read, never findings.
 
-- [**Does a Utah fishing license require strong identification?**](findings/fishing-license-probe.md)
-  — No. §23A-4-601 conditions issuance on payment of a fee alone, and rule R657-45-2 requires the
-  license form to *collect* name, date of birth, address, and a physical description without
-  requiring anyone to *verify* it. Across all 64 Wildlife rules the only identity-verification
-  requirement is for replacing a lost **lifetime** license (R657-17-8). More broadly, Utah's general
-  benefits-verification provision (§63G-12-402) verifies *lawful presence* rather than identity,
-  applies only to a defined class of public benefits for applicants 18+, carries a long exemption
-  list, and is satisfied for citizens by **certification under penalty of perjury** — attestation
-  backed by criminal penalty, not identity proofing.
+## Findings
+
+- [**Summary: when does Utah law require identifying a person?**](findings/identity-duties-summary.md)
+  — the overview, with citations.
+- [**Fishing licence probe**](findings/fishing-license-probe.md) — the origin question. §23A-4-601
+  conditions a licence on paying a fee; rule R657-45-2 requires the form to *collect* name, date of
+  birth, address and physical description without requiring anyone to *verify* it.
+- [**Survey across interaction types**](findings/interaction-survey.md) — LLC formation, records
+  requests, utilities, real property, voter registration, alcohol and tobacco, school enrolment.
+- [**Courts, bail, testimony, jail visits**](findings/courts-bail-jail-probe.md) — zero
+  identity-proofing requirements across all 690 court rules, against 217 occurrences of oath,
+  affirmation, declaration, affidavit or perjury.
 
 ## Known gaps
 
-Both Utah layers are archived. Still missing, and needed before any "Utah law nowhere requires X"
-claim is complete:
+State law is covered; these are not, and no "Utah law nowhere requires X" claim is complete without
+them:
 
-1. **Federal program conditions** — 42 C.F.R. §435.940 (Medicaid), 7 C.F.R. §273.2 (SNAP),
-   6 C.F.R. Part 37 (REAL ID). These bind specific federally funded programs regardless of what
-   Utah's own code says.
-2. **Agency practice** — manuals, forms, and unpublished policy, reachable by GRAMA request rather
+1. **Federal program conditions** — 42 C.F.R. §435.406/407 and §435.940 (Medicaid), 7 C.F.R. §273.2
+   (SNAP), 6 C.F.R. Part 37 (REAL ID). These bind specific federally funded programs regardless of
+   what Utah's own law says, and several of the strongest requirements found here originate there.
+2. **Agency practice** — manuals, forms, and unpublished policy, reachable by a GRAMA request rather
    than by search.
+3. **Local government** — county and municipal policy. County jail visitor rules and utility
+   connection requirements, for instance, are local operational policy and appear in none of these
+   corpora.
 
-## Not legal advice
+The findings are also **samples, not an exhaustive reading** of ~3,100 instruments. Absence of a
+requirement in an unexamined corner cannot be excluded.
 
-Textual research by non-lawyers. For any specific program the binding answer often sits in an agency
-manual or unpublished policy, reachable by GRAMA request rather than by search.
+## Provenance and currency
+
+Every manifest records the source URL, retrieval date, byte count, and SHA-256 for each item, so a
+refetch can be diffed to see exactly what changed. Statute files carry a version stamp encoding the
+text's effective-date range, so a citation pins a *version*, not just a section. The Administrative
+Code is recodified monthly; court rules and statutes change on their own schedules. **Everything here
+was retrieved in late July 2026** — re-fetch before relying on it.
 
 ## Licence
 
-The **original work here** — the findings, the research strategy, the source registry, and the
-tooling under `tools/` — is licensed **[CC BY 4.0](LICENSE)**. Attribution appreciated: Bakobo,
-*utah-id-law*.
+The **original work** — findings, research strategy, source registry, and the tooling under
+`tools/` — is licensed **[CC BY 4.0](LICENSE)**. Attribution appreciated: Bakobo, *utah-id-law*.
 
-The **corpora under `corpus/` are not covered by that licence and are not ours to license.** They
-are the text of Utah statutes, administrative rules, and court rules — edicts of government, which
-carry no copyright. They are redistributed here as retrieved, with source URLs, retrieval dates, and
-SHA-256 hashes in the manifests so provenance is checkable. The authoritative sources remain
-[le.utah.gov](https://le.utah.gov/xcode/code.html),
+The **corpora under `corpus/` are not covered by that licence and are not ours to license.** They are
+the text of Utah statutes, administrative rules, and court rules — edicts of government, which carry
+no copyright. They are redistributed as retrieved, with provenance in the manifests. The
+authoritative sources remain [le.utah.gov](https://le.utah.gov/xcode/code.html),
 [adminrules.utah.gov](https://adminrules.utah.gov/public/home), and
 [utcourts.gov](https://www.utcourts.gov/rules).
 
-Note that the admin-rules and court-rules corpora store **extracted text** rather than the served
-HTML, for the size reasons documented in each fetcher. Quote from them freely, but for anything
-load-bearing, verify against the live source — the manifests tell you exactly where to look.
+The admin-rules and court-rules corpora store **extracted text** rather than the served HTML, for the
+size reasons documented in each fetcher. Quote from them freely — but for anything load-bearing,
+verify against the live source. The manifests tell you exactly where to look.
