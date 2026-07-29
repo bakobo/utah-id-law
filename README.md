@@ -97,6 +97,10 @@ findings — including our own. Corrections are marked inline in the affected fi
   contrast in the repo. A lawful stop compels disclosure of name or date of birth (§76-8-301.5,
   class B misdemeanour) and a driver must display a licence (§53-3-217); paying a parking ticket
   has no identity requirement in state law at all.
+- [**Second sweep**](findings/second-sweep.md) — re-reading the corpus with repaired patterns, plus
+  the interactions and whole categories the earlier surveys were blind to: vehicle registration,
+  marriage licences, concealed-carry permits, candidate filing, REAL ID, and the inverse question of
+  where Utah law *protects* anonymity.
 
 ## Known gaps
 
