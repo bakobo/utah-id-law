@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
-"""Pull the verbatim text of a Utah statute or administrative rule out of the local corpus.
+"""Pull the verbatim text of a Utah statute, administrative rule, or court rule from the corpus.
 
 This is the citation primitive for the research process: every claim about Utah law must be
 backed by output from this tool, so that a citation in a finding can be mechanically checked
 against the retrieved text rather than trusted.
 
-A reference beginning with R is an administrative rule; anything else is a Code section. Both
-layers matter -- the fishing-license probe found the identity requirement in the *rule*
-(R657-45-2) after the statute turned out to have none.
+Three layers, three citation forms:
+
+    23A-4-601    Utah Code section        (legislature)
+    R657-45-2    administrative rule      (agency, under delegated authority)
+    URCP-11      court rule               (Utah Supreme Court)
+
+All three matter. The fishing-licence probe found its identity requirement in the *rule* after
+the statute had none; the court-filing question was unanswerable until the court rules arrived.
 
 Usage:
     python3 tools/cite.py 23A-4-601              # one Code section
@@ -15,8 +20,10 @@ Usage:
     python3 tools/cite.py 63G-12-402 --raw       # keep XML markup
     python3 tools/cite.py R657-45                # a whole admin rule
     python3 tools/cite.py R657-45-2              # one rule section
+    python3 tools/cite.py URCP-11                # a court rule
     python3 tools/cite.py --grep 'penalty of perjury' --title 26B
     python3 tools/cite.py --grep 'verification of identity' --rules
+    python3 tools/cite.py --grep 'oath or affirmation' --courts
 """
 
 import argparse
@@ -28,6 +35,8 @@ from pathlib import Path
 BASE = Path(__file__).resolve().parent.parent / "corpus"
 CORPUS = BASE / "utah-code"
 RULES = BASE / "admin-rules"
+COURTS = BASE / "court-rules"
+COURT_SETS = ("URCP", "URCRP", "URE", "URAP", "URJP", "UCJA")
 
 
 def title_of(ref: str) -> str:
@@ -115,6 +124,22 @@ def grep_rules(pattern: str, prefix: str | None) -> None:
             print(f"{label}\n    …{snippet}…")
 
 
+def grep_courts(pattern: str, rule_set: str | None) -> None:
+    rx = re.compile(pattern, re.I)
+    glob = f"{rule_set.upper()}-*.txt.gz" if rule_set else "*.txt.gz"
+    files = sorted(COURTS.glob(glob)) or sorted(
+        p for p in COURTS.glob("*.txt.gz") if p.name.upper().startswith((rule_set or "").upper())
+    )
+    if not files:
+        raise SystemExit(f"no court rules in {COURTS} (run tools/fetch-utah-court-rules.py)")
+    for f in files:
+        text = gzip.decompress(f.read_bytes()).decode("utf-8", "replace")
+        for m in rx.finditer(text):
+            head = text.split("\n", 1)[0][:70]
+            snippet = re.sub(r"\s+", " ", text[max(0, m.start() - 100) : m.start() + 130])
+            print(f"{f.name[:-7]}\t{head}\n    …{snippet}…")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("ref", nargs="?", help="Code section (23A-4-601) or admin rule (R657-45-2)")
@@ -122,9 +147,13 @@ def main() -> None:
     ap.add_argument("--grep", metavar="PATTERN", help="search the corpus, printing section numbers")
     ap.add_argument("--title", help="restrict --grep to one title (26B) or rule prefix (R657)")
     ap.add_argument("--rules", action="store_true", help="search admin rules instead of the Code")
+    ap.add_argument("--courts", action="store_true", help="search court rules instead of the Code")
     args = ap.parse_args()
 
     if args.grep:
+        if args.courts or (args.title or "").upper() in COURT_SETS:
+            grep_courts(args.grep, args.title)
+            return
         if args.rules or (args.title or "").upper().startswith("R"):
             grep_rules(args.grep, args.title)
             return
@@ -149,6 +178,16 @@ def main() -> None:
         ap.error("give a section/chapter reference, or use --grep")
 
     ref = args.ref.upper()
+
+    if ref.split("-")[0] in COURT_SETS:
+        matches = [p for p in COURTS.glob("*.txt.gz") if p.name[:-7].upper() == ref]
+        if not matches:
+            raise SystemExit(
+                f"'{args.ref}' not in the court-rules corpus. Fetch with:\n"
+                f"    python3 tools/fetch-utah-court-rules.py {ref.split('-')[0].lower()}"
+            )
+        print(gzip.decompress(matches[0].read_bytes()).decode("utf-8", "replace"))
+        return
 
     if ref.startswith("R") and re.match(r"R\d", ref):
         rule, text = load_rule(ref)
