@@ -90,6 +90,10 @@ read, never findings.
 - [**Courts, bail, testimony, jail visits**](findings/courts-bail-jail-probe.md) — zero
   identity-proofing requirements across all 690 court rules, against 217 occurrences of oath,
   affirmation, declaration, affidavit or perjury.
+- [**Traffic stops and parking tickets**](findings/traffic-stop-parking-probe.md) — the sharpest
+  contrast in the repo. A lawful stop compels disclosure of name or date of birth (§76-8-301.5,
+  class B misdemeanour) and a driver must display a licence (§53-3-217); paying a parking ticket
+  has no identity requirement in state law at all.
 
 ## Known gaps
 
@@ -101,9 +105,12 @@ them:
    what Utah's own law says, and several of the strongest requirements found here originate there.
 2. **Agency practice** — manuals, forms, and unpublished policy, reachable by a GRAMA request rather
    than by search.
-3. **Local government** — county and municipal policy. County jail visitor rules and utility
-   connection requirements, for instance, are local operational policy and appear in none of these
+3. **Local government** — county and municipal policy. County jail visitor rules, utility connection
+   requirements, and parking ordinances are local operational policy and appear in none of these
    corpora.
+4. **Case law** — no judicial decisions are held here. For most questions the statutory text carries
+   the answer, but not all: what a traffic-stop identification duty means in practice turns on
+   Fourth and Fifth Amendment doctrine and on Utah appellate decisions construing the statute.
 
 The findings are also **samples, not an exhaustive reading** of ~3,100 instruments. Absence of a
 requirement in an unexamined corner cannot be excluded.
