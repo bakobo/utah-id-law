@@ -68,10 +68,18 @@ def plain(xml: str) -> str:
 
 
 def extract(xml: str, ref: str) -> str | None:
-    """Return the XML fragment for a section or chapter reference."""
+    """Return the XML fragment for a section or chapter reference.
+
+    Matched case-insensitively on purpose. Many section numbers carry a lowercase suffix
+    (41-6a-217, 78B-18a-101, 53-3a-102), and an exact-case match silently returns nothing --
+    which reads like "no such provision" rather than "you typed it differently". A false
+    negative here would corrupt a finding, so normalise instead.
+    """
     for tag in ("section", "chapter"):
         m = re.search(
-            rf'<{tag} number="{re.escape(ref)}">(.*?)(?=<{tag} number="|</{tag}>)', xml, re.S
+            rf'<{tag} number="{re.escape(ref)}">(.*?)(?=<{tag} number="|</{tag}>)',
+            xml,
+            re.S | re.I,
         )
         if m:
             return m.group(1)
