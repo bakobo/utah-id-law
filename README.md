@@ -40,10 +40,12 @@ statute. The court-filing question was simply unanswerable until the court rules
 corpus/utah-code/                 96 titles, version-stamped XML, gzipped (86 MB → 15 MB)
 corpus/admin-rules/               2,294 current rules, extracted text, gzipped (36 MB → 16 MB)
 corpus/court-rules/               661 rules across six sets (URCP, URCrP, URE, URAP, URJP, UCJA)
-corpus/MANIFEST-*.tsv             source URL, retrieval date, bytes, SHA-256 per item
+corpus/MANIFEST-*.tsv             what each fetcher retrieved — the harvest log, one per layer
+corpus/*/MANIFEST.tsv             the same corpus in the shared schema the sibling repos use
 tools/fetch-utah-code.py          refetch statutes (all titles, or named)
 tools/fetch-utah-admin-rules.py   refetch admin rules (all, or named prefixes)
 tools/fetch-utah-court-rules.py   refetch court rules (all, or named sets)
+tools/build-kit-manifests.py      rebuild the shared-schema manifests after any fetch
 tools/cite.py                     quote a section or rule; search any layer
 tools/sweep-identity.py           map identity-duty language across all three corpora
 docs/research-strategy.md         how the research is done — read before adding to it
@@ -64,6 +66,20 @@ python3 tools/cite.py --grep 'oath' --courts          # ...across the court rule
 python3 tools/sweep-identity.py                       # where identity duties concentrate
 
 rg -z 'proof of identity' corpus/                     # raw search; rg -z reads gzip directly
+```
+
+`tools/cite.py` knows Utah's citation forms and slices *inside* a stored file — a section out of a
+title, a section out of a rule. The shared `lawcite`, from the sibling
+[`bakobo/id-law-kit`](https://github.com/bakobo/id-law-kit), works a level up: it quotes a whole
+corpus item, checks the stored text still hashes to what the manifest recorded, and prints a validity
+banner above every quote. Neither replaces the other, and a citation to a *provision* still comes
+from `cite.py`.
+
+```sh
+lawcite --corpus corpus/utah-code   'Utah Code Title 63A'   # a statute title
+lawcite --corpus corpus/admin-rules R657-45                 # an administrative rule
+lawcite --corpus corpus/court-rules URCP-11                 # a court rule
+lawcite --corpus corpus/court-rules --grep 'identity' --in-force-only
 ```
 
 ## The one working rule
@@ -125,10 +141,27 @@ requirement in an unexamined corner cannot be excluded.
 ## Provenance and currency
 
 Every manifest records the source URL, retrieval date, byte count, and SHA-256 for each item, so a
-refetch can be diffed to see exactly what changed. Statute files carry a version stamp encoding the
-text's effective-date range, so a citation pins a *version*, not just a section. The Administrative
-Code is recodified monthly; court rules and statutes change on their own schedules. **Everything here
-was retrieved in late July 2026** — re-fetch before relying on it.
+refetch can be diffed to see exactly what changed. The Administrative Code is recodified monthly;
+court rules and statutes change on their own schedules. **Everything here was retrieved in late July
+2026** — re-fetch before relying on it.
+
+Two things this section used to say, corrected on 2026-09-16 when the corpus was first read through
+the shared schema:
+
+- **The statute version stamp does not encode an effective-date range.** It is an opaque version
+  identifier from le.utah.gov's master index, and it does pin a version — but 73 of the 96 titles
+  carry the sentinel `1800010118000101`, and where a title records an `<effdate>` the stamp's two
+  halves match it inconsistently (Title 63A's second half, Title 75A's first). Title 75A's stamp is
+  `20240901` followed by `20240501`, which cannot be a range that starts before it ends. Nor does the
+  stamp bound the text: Title 23A is stamped 2023 and its stored text carries amendments from the
+  2025 General Session. **The stored text is the current consolidated version as of the retrieval
+  date**, and that date is what pins it.
+- **Not every manifest recorded a digest of the text it stores.** `MANIFEST-admin-rules.tsv` records
+  `html_sha256`, the digest of the source HTML the fetcher downloaded, rather than of the plain text
+  it extracted and wrote — so for 2,294 of 3,051 items the corpus attested to bytes that were never
+  on disk. `tools/cite.py` never checked a digest, so nothing surfaced it. The shared manifests under
+  `corpus/*/MANIFEST.tsv` compute every digest from the stored file, and `lawcite` verifies it on
+  every quote.
 
 ## Licence
 

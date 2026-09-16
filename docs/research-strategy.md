@@ -172,8 +172,15 @@ the 1st. Re-fetch monthly if currency matters; the manifest's SHA-256 column mak
 
 - `corpus/MANIFEST-utah-code.tsv` records URL, version stamp, retrieval date, byte count, and
   SHA-256 for every title. Re-running the fetcher and diffing hashes shows exactly what changed.
-- The version stamp (`C63G-12_1800010118000101`) encodes the text's effective-date range, so a
-  citation pins a *version*, not just a section.
+- The version stamp (`C63A_2021050520210701`) is an opaque version identifier from le.utah.gov's
+  master index. It pins a *version*, which is what a citation needs. It does **not** encode an
+  effective-date range, which this line claimed until 2026-09-16: 73 of the 96 titles carry the
+  sentinel `1800010118000101`, Title 75A's stamp runs `20240901` then `20240501`, and Title 23A is
+  stamped 2023 while its text carries 2025 amendments. The stored text is the current consolidated
+  version **as of the retrieval date**, and the retrieval date is what bounds it.
+- `corpus/<layer>/MANIFEST.tsv` restates the same corpus in the schema shared with the sibling
+  repos, so `lawcite` can quote it with a validity banner and a digest check. Rebuild it with
+  `tools/build-kit-manifests.py` after any fetch; the `MANIFEST-*.tsv` files remain the harvest log.
 - `sources/registry.md` follows the `../sedi` convention: live URL ⇄ local copy ⇄ retrieval date.
 - Corpus files are stored gzipped (86 MB → 15 MB) and stay searchable via `rg -z`.
 

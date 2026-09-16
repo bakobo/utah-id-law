@@ -11,10 +11,18 @@ which maps directly to the whole-title XML:
 
     https://le.utah.gov/xcode/Title23A/C23A_2023050320230701.xml
 
-The stamp is <effective-start><effective-end> in YYYYMMDD form, so it pins the exact
-version of the text we retrieved. Titles are stored gzipped (they compress ~10x and
-`rg -z` searches them transparently) alongside a manifest recording URL, stamp,
-retrieval date, uncompressed size, and SHA-256 for provenance.
+The stamp pins the exact version of the text we retrieved, which is what a citation
+needs. It is opaque, and this docstring used to describe it as
+<effective-start><effective-end> in YYYYMMDD form -- which the corpus refutes. 73 of
+the 96 titles carry the sentinel `1800010118000101`; Title 75A's stamp runs `20240901`
+then `20240501`, so it cannot be a range; and where a title records an `<effdate>` the
+stamp's halves match it inconsistently. The index serves each title's *current*
+version, so the text is current as of the retrieval date rather than bounded by the
+stamp -- Title 23A is stamped 2023 and carries 2025 amendments.
+
+Titles are stored gzipped (they compress ~10x and `rg -z` searches them transparently)
+alongside a manifest recording URL, stamp, retrieval date, uncompressed size, and
+SHA-256 for provenance.
 
 Usage:
     python3 tools/fetch-utah-code.py                 # fetch all titles
