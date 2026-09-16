@@ -139,10 +139,16 @@ def main() -> None:
         target = args.detail.upper()
         for label, group, text in texts(which):
             up = label.upper()
+            # A statute title is labelled "Title 63A" and cited "63A", so the documented
+            # `--detail 63A` matched nothing for the whole Code layer -- and printed nothing
+            # rather than saying so, which reads as "no identity language in Title 63A" when
+            # there are 204 hits in it. Both spellings resolve now. A zero is a question.
+            names = {up, group.upper()}
+            if up.startswith("TITLE "):
+                names.add(up[len("TITLE ") :])
             if not (
-                group.upper() == target
-                or up == target
-                or re.match(rf"{re.escape(target)}[-. ]", up)
+                target in names
+                or any(re.match(rf"{re.escape(target)}[-. ]", n) for n in names)
             ):
                 continue
             for bucket, rxs in COMPILED.items():
