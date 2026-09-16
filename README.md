@@ -22,6 +22,16 @@ The short answer: **Utah has no general identity-assurance baseline.** Requireme
 interaction by interaction and range from nothing, through attestation, to documentary proof. See
 [`findings/identity-duties-summary.md`](findings/identity-duties-summary.md).
 
+That answer survives a 2026 enactment which came closer to changing it than anything else in the
+corpus, and the qualification belongs here because the sentence above is this repo's headline. Title
+63A Chapter 20 sets a real identity-proofing standard — the only one in these 96 titles — for a
+state-endorsed digital identity. It is still not a baseline, because §63A-20-302(5) says an
+individual "is not required to apply for or obtain" the credential and §63A-20-101(9) forbids
+denying anyone a service they are otherwise entitled to over their choice of how to assert identity.
+The same chapter carries Utah's clearest duty running the *other* way — a ceiling on what may be
+collected at all — which the question as framed above was not built to notice. See
+[`findings/digital-identity-chapter-probe.md`](findings/digital-identity-chapter-probe.md).
+
 ## Three layers, and why all three matter
 
 | Corpus | Made by | Size |
@@ -113,6 +123,10 @@ findings — including our own. Corrections are marked inline in the affected fi
   contrast in the repo. A lawful stop compels disclosure of name or date of birth (§76-8-301.5,
   class B misdemeanour) and a driver must display a licence (§53-3-217); paying a parking ticket
   has no identity requirement in state law at all.
+- [**Title 63A Chapter 20**](findings/digital-identity-chapter-probe.md) — the state digital-identity
+  chapter that sat in our own corpus uncited. The corpus's only strict identity-proofing duty
+  (§63A-20-303), its only minimisation *ceiling* (§63A-20-302(7)(a)), and why three separate things
+  kept it unread.
 - [**Second sweep**](findings/second-sweep.md) — re-reading the corpus with repaired patterns, plus
   the interactions and whole categories the earlier surveys were blind to: vehicle registration,
   marriage licences, concealed-carry permits, candidate filing, REAL ID, and the inverse question of

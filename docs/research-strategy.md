@@ -192,3 +192,18 @@ the 1st. Re-fetch monthly if currency matters; the manifest's SHA-256 column mak
   before relying on an old finding.
 - **Scope guard.** This repo is Utah identity-verification law *generally*. SEDI-specific statutory
   analysis belongs in `../sedi`, which is deliberately scoped to SEDI only. Cross-link; do not merge.
+  **The guard is about the programme, not about the chapter, and reading it the other way cost this
+  repo a chapter.** Title 63A Ch. 20 went uncited for seven weeks because its title says
+  *State-Endorsed Digital Identity* and that was taken as enough to send all eighteen sections away —
+  including §63A-20-303, the corpus's only strict identity-proofing duty, and §63A-20-302(7)(a), its
+  clearest minimisation ceiling. Both bear directly on the question at the top of this document. A
+  provision belongs to `../sedi` when the answer it gives is *about the programme*: its governance,
+  its wallet and verifier obligations, its rollout. It belongs here when the answer it gives is about
+  what Utah law demands of a person's identity, whatever instrument happens to carry it. When in
+  doubt, read it here and cross-link. See [`../findings/digital-identity-chapter-probe.md`](../findings/digital-identity-chapter-probe.md).
+- **Duties run in two directions, and the tooling only sees one.** The four-way table in §1 and all
+  five buckets in `tools/sweep-identity.py` describe ways of *requiring* identification. A provision
+  that forbids collecting or retaining it — the `prohibited-identification` direction — matches none
+  of them and cannot surface from any sweep at any threshold. Ten such provisions are now known, in
+  titles 13, 26B, 34 and 63A; there is no reason to think that list is complete, because nothing
+  systematic has ever looked for them.

@@ -21,7 +21,18 @@ specific version of the text. Sections load-bearing so far:
 - **§26B-1-202(2)(pp)** — Department authority re: provider identity coordination. The sole
   identity-verification reference in the Health and Human Services title.
 - **§63A-12-117** — Electronic records / notarization-grade identity verification.
-- **§63A-20-204** — SEDI use cases. (SEDI analysis proper lives in `../../sedi`.)
+- **§63A-20-204** — SEDI use cases. (Programme analysis proper lives in `../../sedi`.)
+- **§63A-20-303** — Identity proofing. The corpus's only duty to *prove* identity in the strict
+  sense: the applicant "is a real individual" and "is the individual the applicant claims to be".
+  Names no assurance level; delegates the standard to rulemaking under (4)(a).
+- **§63A-20-302(7)(a)** — "The department may not require collection of information that is not
+  necessary to verify identity or eligibility." The clearest minimisation ceiling in the Code.
+- **§63A-20-101** — Digital identity bill of rights. (5) conditions state endorsement on "objective,
+  uniform standards"; (4) and (9) make the credential non-compulsory and bar disadvantaging anyone
+  who declines it.
+- **§63A-19-401**, **§63A-19-402.5** — Government Data Privacy Act: minimum-data and
+  no-collection-without-notice ceilings on governmental entities generally.
+- **§13-61-503**, **§26B-2-709**, **§34-46-203** — the minimisation ceilings outside Title 63A.
 
 ## 2. Federal law
 
@@ -72,8 +83,11 @@ Other publication channels:
 
 ## 4. Cross-references
 
-- `../../sedi/` — SEDI dossier (Title 63A Ch. 20). Scoped to SEDI only; this repo holds the
-  general Utah identity-law baseline SEDI is layered onto.
+- `../../sedi/` — SEDI dossier (Title 63A Ch. 20). Scoped to the *programme*; this repo holds the
+  general Utah identity-law baseline SEDI is layered onto — and that includes the general duty text
+  inside Chapter 20 itself, which this repo now reads. See
+  [`../findings/digital-identity-chapter-probe.md`](../findings/digital-identity-chapter-probe.md)
+  and the scope guard in `../docs/research-strategy.md` §7, both corrected 2026-09-16.
 - `../../landscape/` — competitive and standards-landscape research.
 
 ## ⚠ Verification flags
